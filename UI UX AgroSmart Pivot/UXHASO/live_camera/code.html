@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Live Camera - Precision Field</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#d02d2d",
+                        "on-background": "#191c1d",
+                        "surface-container-high": "#e7e8e9",
+                        "primary": "#0d631b",
+                        "primary-fixed": "#a3f69c",
+                        "tertiary-fixed": "#ffdad6",
+                        "on-secondary-fixed": "#001c3a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#191c1d",
+                        "on-primary-fixed-variant": "#005312",
+                        "surface-variant": "#e1e3e4",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#bfcaba",
+                        "on-primary-container": "#cbffc2",
+                        "secondary": "#005faf",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed-variant": "#004786",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "background": "#f8f9fa",
+                        "surface-dim": "#d9dadb",
+                        "surface": "#f8f9fa",
+                        "secondary-fixed-dim": "#a5c8ff",
+                        "on-primary-fixed": "#002204",
+                        "secondary-container": "#54a0fe",
+                        "on-tertiary-fixed-variant": "#930010",
+                        "outline": "#707a6c",
+                        "surface-container-highest": "#e1e3e4",
+                        "on-tertiary-fixed": "#410003",
+                        "tertiary": "#ac0c18",
+                        "primary-container": "#2e7d32",
+                        "inverse-surface": "#2e3132",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb3ac",
+                        "on-secondary-container": "#003567",
+                        "on-surface-variant": "#40493d",
+                        "on-tertiary-container": "#ffedeb",
+                        "inverse-primary": "#88d982",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-container": "#edeeef",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#f8f9fa",
+                        "secondary-fixed": "#d4e3ff",
+                        "surface-tint": "#1b6d24",
+                        "primary-fixed-dim": "#88d982"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background h-screen overflow-hidden flex flex-col">
+<!-- TopAppBar -->
+<header class="docked w-full top-0 z-50 bg-[#f8f9fa] dark:bg-[#1a1c1e] text-[#0d631b] dark:text-[#b4f1a6] font-['Inter'] font-bold text-2xl tracking-tight bg-[#f3f4f5] dark:bg-[#2e2f31] flat no-shadows flex justify-between items-center h-[72px] px-6 max-w-full">
+<button class="hover:bg-[#f3f4f5] dark:hover:bg-[#3f4143] active:scale-95 transition-transform duration-200 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<div class="font-black text-[#0d631b] dark:text-[#b4f1a6] tracking-tighter">Precision Field</div>
+<button class="hover:bg-[#f3f4f5] dark:hover:bg-[#3f4143] active:scale-95 transition-transform duration-200 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="sensors">sensors</span>
+</button>
+</header>
+<!-- Main Content Canvas (Live Camera) -->
+<main class="flex-grow relative bg-on-background w-full h-full">
+<!-- Camera Feed Background -->
+<div class="absolute inset-0 w-full h-full bg-cover bg-center" data-alt="High definition drone view of a lush green agricultural field under bright sunlight, showing rows of crops and a massive irrigation system." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBeUJRHkIaasOz-xAJ_754NtdohBmEfcls7YrngDl51rKsmXxr4EQPoR0hqNs3_Dw-5Co-hw6TC2Y0joBiSPaooG-8_gZAdyM4vmlEatA8Kq4Pz83bkAErmvkhyYH3FussFYzC_aqspFtfiljlO7FvNuOF8UCeW4P1S18D0AeFoBtR8dURHlztWNDG3Dx-BnVjXAsKnKflLLf2PXz5JJ8s0iUwVALnmQn9hjQKUlFrYg-AmdM756pFF44Pw3slrWZ4UDBSZNJDoyfI4');">
+</div>
+<!-- Simulated AI Overlays -->
+<!-- Crop Detection Box -->
+<div class="absolute top-[30%] left-[20%] border-4 border-primary rounded-lg w-[150px] h-[150px] flex items-start justify-start p-1 shadow-[0_0_15px_rgba(13,99,27,0.5)]">
+<div class="bg-primary text-on-primary text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest backdrop-blur-md bg-opacity-80">
+                Crop (98%)
+            </div>
+</div>
+<!-- Weed Detection Box -->
+<div class="absolute top-[50%] left-[60%] border-4 border-error rounded-lg w-[100px] h-[100px] flex items-start justify-start p-1 shadow-[0_0_15px_rgba(186,26,26,0.5)]">
+<div class="bg-error text-on-error text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest backdrop-blur-md bg-opacity-80">
+                Weed (87%)
+            </div>
+</div>
+<!-- Glassmorphism Status Overlay -->
+<div class="absolute top-6 left-6 z-10">
+<div class="bg-surface-container-lowest/80 backdrop-blur-[20px] rounded-xl p-4 flex items-center gap-4 shadow-[0_12px_32px_rgba(25,28,29,0.06)]">
+<div class="relative flex h-4 w-4">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-4 w-4 bg-primary"></span>
+</div>
+<div>
+<h2 class="font-headline font-bold text-on-surface text-[1.125rem]">Camera Live</h2>
+<p class="font-body text-on-surface-variant text-[1rem]">AI Scanning</p>
+</div>
+</div>
+</div>
+<!-- Glassmorphism Controls (Bottom Right) -->
+<div class="absolute bottom-[120px] right-6 z-10 flex flex-col gap-4">
+<button class="bg-surface-container-lowest/80 backdrop-blur-[20px] shadow-[0_12px_32px_rgba(25,28,29,0.06)] rounded-full w-14 h-14 flex items-center justify-center text-primary hover:bg-surface-container-lowest transition-colors active:scale-95">
+<span class="material-symbols-outlined text-3xl" data-icon="photo_camera">photo_camera</span>
+</button>
+<button class="bg-surface-container-lowest/80 backdrop-blur-[20px] shadow-[0_12px_32px_rgba(25,28,29,0.06)] rounded-full w-14 h-14 flex items-center justify-center text-primary hover:bg-surface-container-lowest transition-colors active:scale-95">
+<span class="material-symbols-outlined text-3xl" data-icon="center_focus_strong">center_focus_strong</span>
+</button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<!-- Assuming "Fields" is the closest match for a live camera view of the field -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-[24px] border-none shadow-[0_-8px_32px_rgba(0,0,0,0.06)] shadow-2xl bg-white/80 dark:bg-black/80 backdrop-blur-md md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-[96px] pb-4 px-2 text-[#0d631b] dark:text-[#b4f1a6] font-['Inter'] font-bold text-[11px] uppercase tracking-wider">
+<button class="flex flex-col items-center justify-center text-[#444746] dark:text-[#c4c7c5] px-6 py-2 hover:text-[#0d631b] dark:hover:text-[#b4f1a6] active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined mb-1 text-2xl" data-icon="dashboard">dashboard</span>
+            Status
+        </button>
+<button class="flex flex-col items-center justify-center bg-gradient-to-br from-[#0d631b] to-[#2e7d32] text-white rounded-[20px] px-6 py-2 active:scale-90 transition-all duration-300 shadow-[0_4px_14px_rgba(13,99,27,0.39)]">
+<span class="material-symbols-outlined mb-1 text-2xl" data-icon="map" data-weight="fill" style="font-variation-settings: 'FILL' 1;">map</span>
+            Fields
+        </button>
+<button class="flex flex-col items-center justify-center text-[#444746] dark:text-[#c4c7c5] px-6 py-2 hover:text-[#0d631b] dark:hover:text-[#b4f1a6] active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined mb-1 text-2xl" data-icon="settings_remote">settings_remote</span>
+            Control
+        </button>
+<button class="flex flex-col items-center justify-center text-[#444746] dark:text-[#c4c7c5] px-6 py-2 hover:text-[#0d631b] dark:hover:text-[#b4f1a6] active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined mb-1 text-2xl" data-icon="bar_chart">bar_chart</span>
+            Reports
+        </button>
+<button class="flex flex-col items-center justify-center text-[#444746] dark:text-[#c4c7c5] px-6 py-2 hover:text-[#0d631b] dark:hover:text-[#b4f1a6] active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined mb-1 text-2xl" data-icon="person">person</span>
+            Profile
+        </button>
+</nav>
+</body></html>

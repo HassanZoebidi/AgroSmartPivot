@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Precision Field - Reports</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-container": "#d02d2d",
+                      "on-background": "#191c1d",
+                      "surface-container-high": "#e7e8e9",
+                      "primary": "#0d631b",
+                      "primary-fixed": "#a3f69c",
+                      "tertiary-fixed": "#ffdad6",
+                      "on-secondary-fixed": "#001c3a",
+                      "surface-container-lowest": "#ffffff",
+                      "on-surface": "#191c1d",
+                      "on-primary-fixed-variant": "#005312",
+                      "surface-variant": "#e1e3e4",
+                      "error-container": "#ffdad6",
+                      "outline-variant": "#bfcaba",
+                      "on-primary-container": "#cbffc2",
+                      "secondary": "#005faf",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-fixed-variant": "#004786",
+                      "on-error-container": "#93000a",
+                      "error": "#ba1a1a",
+                      "background": "#f8f9fa",
+                      "surface-dim": "#d9dadb",
+                      "surface": "#f8f9fa",
+                      "secondary-fixed-dim": "#a5c8ff",
+                      "on-primary-fixed": "#002204",
+                      "secondary-container": "#54a0fe",
+                      "on-tertiary-fixed-variant": "#930010",
+                      "outline": "#707a6c",
+                      "surface-container-highest": "#e1e3e4",
+                      "on-tertiary-fixed": "#410003",
+                      "tertiary": "#ac0c18",
+                      "primary-container": "#2e7d32",
+                      "inverse-surface": "#2e3132",
+                      "on-tertiary": "#ffffff",
+                      "tertiary-fixed-dim": "#ffb3ac",
+                      "on-secondary-container": "#003567",
+                      "on-surface-variant": "#40493d",
+                      "on-tertiary-container": "#ffedeb",
+                      "inverse-primary": "#88d982",
+                      "surface-container-low": "#f3f4f5",
+                      "surface-container": "#edeeef",
+                      "inverse-on-surface": "#f0f1f2",
+                      "on-primary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "surface-bright": "#f8f9fa",
+                      "secondary-fixed": "#d4e3ff",
+                      "surface-tint": "#1b6d24",
+                      "primary-fixed-dim": "#88d982"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {},
+              "fontFamily": {
+                      "headline": ["Inter"],
+                      "body": ["Inter"],
+                      "label": ["Inter"]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+      </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="pb-32 selection:bg-primary selection:text-on-primary min-h-screen">
+<!-- TopAppBar -->
+<header class="bg-[#f8f9fa] dark:bg-[#1a1c1e] text-[#0d631b] dark:text-[#b4f1a6] font-['Inter'] font-bold text-2xl tracking-tight docked w-full top-0 z-50 bg-[#f3f4f5] dark:bg-[#2e2f31] flat no-shadows flex justify-between items-center h-[72px] px-6 max-w-full">
+<button class="hover:bg-[#f3f4f5] dark:hover:bg-[#3f4143] active:scale-95 transition-transform duration-200 p-2 rounded-full">
+<span class="material-symbols-outlined text-3xl">menu</span>
+</button>
+<span class="font-black text-[#0d631b] dark:text-[#b4f1a6] tracking-tighter">Precision Field</span>
+<button class="hover:bg-[#f3f4f5] dark:hover:bg-[#3f4143] active:scale-95 transition-transform duration-200 p-2 rounded-full">
+<span class="material-symbols-outlined text-3xl">sensors</span>
+</button>
+</header>
+<main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+<h1 class="text-[2rem] font-bold text-on-surface tracking-tight">Reports</h1>
+<div class="flex flex-wrap items-center gap-3">
+<div class="bg-surface-container-high rounded-lg p-1 flex items-center h-[56px] px-4 min-w-[200px]">
+<span class="material-symbols-outlined text-primary mr-2">calendar_month</span>
+<select class="bg-transparent border-none text-on-surface font-bold focus:ring-0 w-full text-base">
+<option>Last 30 Days</option>
+<option>This Week</option>
+<option>Year to Date</option>
+</select>
+</div>
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary h-[56px] px-6 rounded-xl font-bold flex items-center gap-2 hover:opacity-90 active:scale-95 transition-all shadow-[0_12px_32px_rgba(25,28,29,0.06)]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">download</span>
+                    Download PDF
+                </button>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+<!-- Water Usage Card -->
+<div class="bg-surface-container-lowest rounded-xl p-6 lg:p-8 relative overflow-hidden flex flex-col h-[400px]">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary"></div>
+<div class="flex justify-between items-start mb-6">
+<div>
+<h2 class="text-[1.125rem] font-bold text-on-surface mb-1">Water Usage</h2>
+<p class="text-on-surface-variant text-sm font-medium">Acre-inches applied per field</p>
+</div>
+<div class="bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 text-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">water_drop</span>
+                        Total: 1,420 ac-in
+                    </div>
+</div>
+<div class="flex-grow flex items-end justify-around gap-2 pt-8">
+<!-- Bar Chart Representation -->
+<div class="flex flex-col items-center gap-2 w-full">
+<div class="w-full bg-surface-container-highest rounded-t-sm h-[60%] hover:bg-secondary transition-colors relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">120</div>
+</div>
+<span class="text-xs font-bold text-on-surface-variant">North</span>
+</div>
+<div class="flex flex-col items-center gap-2 w-full">
+<div class="w-full bg-surface-container-highest rounded-t-sm h-[80%] hover:bg-secondary transition-colors relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">180</div>
+</div>
+<span class="text-xs font-bold text-on-surface-variant">South</span>
+</div>
+<div class="flex flex-col items-center gap-2 w-full">
+<div class="w-full bg-secondary rounded-t-sm h-[100%] relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">220</div>
+</div>
+<span class="text-xs font-bold text-on-surface-variant">East 1</span>
+</div>
+<div class="flex flex-col items-center gap-2 w-full">
+<div class="w-full bg-surface-container-highest rounded-t-sm h-[40%] hover:bg-secondary transition-colors relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">90</div>
+</div>
+<span class="text-xs font-bold text-on-surface-variant">West 2</span>
+</div>
+<div class="flex flex-col items-center gap-2 w-full">
+<div class="w-full bg-surface-container-highest rounded-t-sm h-[70%] hover:bg-secondary transition-colors relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">150</div>
+</div>
+<span class="text-xs font-bold text-on-surface-variant">Pivot 5</span>
+</div>
+</div>
+</div>
+<!-- AI Detection Accuracy Card -->
+<div class="bg-surface-container-lowest rounded-xl p-6 lg:p-8 relative overflow-hidden flex flex-col h-[400px]">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div class="flex justify-between items-start mb-6">
+<div>
+<h2 class="text-[1.125rem] font-bold text-on-surface mb-1">AI Detection Accuracy</h2>
+<p class="text-on-surface-variant text-sm font-medium">Stress &amp; Anomaly confidence</p>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="text-[2.5rem] font-bold text-primary leading-none tracking-tighter">94</span>
+<span class="text-lg font-bold text-primary">%</span>
+</div>
+</div>
+<div class="flex-grow relative mt-4">
+<!-- Line Chart Representation -->
+<div class="absolute inset-0 flex flex-col justify-between pt-4 pb-8 border-l-2 border-b-2 border-surface-container-highest">
+<div class="w-full border-t border-surface-container-highest opacity-50"></div>
+<div class="w-full border-t border-surface-container-highest opacity-50"></div>
+<div class="w-full border-t border-surface-container-highest opacity-50"></div>
+<div class="w-full border-t border-surface-container-highest opacity-50"></div>
+<!-- Connecting Line (SVG simulation) -->
+<svg class="absolute inset-0 h-full w-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<path class="text-primary opacity-80" d="M0,80 L20,70 L40,40 L60,50 L80,20 L100,10" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="3"></path>
+</svg>
+<!-- Data Points -->
+<div class="absolute bottom-[20%] left-[0%] w-3 h-3 bg-primary rounded-full border-2 border-surface-container-lowest -translate-x-1.5 translate-y-1.5"></div>
+<div class="absolute bottom-[30%] left-[20%] w-3 h-3 bg-primary rounded-full border-2 border-surface-container-lowest -translate-x-1.5 translate-y-1.5"></div>
+<div class="absolute bottom-[60%] left-[40%] w-3 h-3 bg-primary rounded-full border-2 border-surface-container-lowest -translate-x-1.5 translate-y-1.5"></div>
+<div class="absolute bottom-[50%] left-[60%] w-3 h-3 bg-primary rounded-full border-2 border-surface-container-lowest -translate-x-1.5 translate-y-1.5"></div>
+<div class="absolute bottom-[80%] left-[80%] w-3 h-3 bg-primary rounded-full border-2 border-surface-container-lowest -translate-x-1.5 translate-y-1.5"></div>
+<div class="absolute bottom-[90%] left-[100%] w-4 h-4 bg-primary-container rounded-full border-2 border-surface-container-lowest -translate-x-2 translate-y-2 flex items-center justify-center shadow-lg"><div class="w-1.5 h-1.5 bg-surface-container-lowest rounded-full"></div></div>
+</div>
+<!-- X Axis Labels -->
+<div class="absolute bottom-0 left-0 right-0 flex justify-between text-xs font-bold text-on-surface-variant translate-y-full pt-2 px-1">
+<span>W1</span>
+<span>W2</span>
+<span>W3</span>
+<span>W4</span>
+<span>W5</span>
+<span>Now</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden bg-white/80 dark:bg-black/80 backdrop-blur-md fixed bottom-0 w-full z-50 rounded-t-[24px] border-none shadow-[0_-8px_32px_rgba(0,0,0,0.06)] shadow-2xl fixed bottom-0 left-0 w-full flex justify-around items-center h-[96px] pb-4 px-2">
+<a class="flex flex-col items-center justify-center text-[#444746] dark:text-[#c4c7c5] px-6 py-2 hover:text-[#0d631b] dark:hover:text-[#b4f1a6] active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined mb-1 text-[24px]">dashboard</span>
+<span class="font-['Inter'] font-bold text-[11px] uppercase tracking-wider">Status</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#444746] dark:text-[#c4c7c5] px-6 py-2 hover:text-[#0d631b] dark:hover:text-[#b4f1a6] active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined mb-1 text-[24px]">map</span>
+<span class="font-['Inter'] font-bold text-[11px] uppercase tracking-wider">Fields</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#444746] dark:text-[#c4c7c5] px-6 py-2 hover:text-[#0d631b] dark:hover:text-[#b4f1a6] active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined mb-1 text-[24px]">settings_remote</span>
+<span class="font-['Inter'] font-bold text-[11px] uppercase tracking-wider">Control</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-gradient-to-br from-[#0d631b] to-[#2e7d32] text-white rounded-[20px] px-6 py-2 active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined mb-1 text-[24px]" style="font-variation-settings: 'FILL' 1;">bar_chart</span>
+<span class="font-['Inter'] font-bold text-[11px] uppercase tracking-wider">Reports</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#444746] dark:text-[#c4c7c5] px-6 py-2 hover:text-[#0d631b] dark:hover:text-[#b4f1a6] active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined mb-1 text-[24px]">person</span>
+<span class="font-['Inter'] font-bold text-[11px] uppercase tracking-wider">Profile</span>
+</a>
+</nav>
+</body></html>

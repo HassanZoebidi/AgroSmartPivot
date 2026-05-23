@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Precision Field - Field View</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#d02d2d",
+                        "on-background": "#191c1d",
+                        "surface-container-high": "#e7e8e9",
+                        "primary": "#0d631b",
+                        "primary-fixed": "#a3f69c",
+                        "tertiary-fixed": "#ffdad6",
+                        "on-secondary-fixed": "#001c3a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#191c1d",
+                        "on-primary-fixed-variant": "#005312",
+                        "surface-variant": "#e1e3e4",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#bfcaba",
+                        "on-primary-container": "#cbffc2",
+                        "secondary": "#005faf",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed-variant": "#004786",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "background": "#f8f9fa",
+                        "surface-dim": "#d9dadb",
+                        "surface": "#f8f9fa",
+                        "secondary-fixed-dim": "#a5c8ff",
+                        "on-primary-fixed": "#002204",
+                        "secondary-container": "#54a0fe",
+                        "on-tertiary-fixed-variant": "#930010",
+                        "outline": "#707a6c",
+                        "surface-container-highest": "#e1e3e4",
+                        "on-tertiary-fixed": "#410003",
+                        "tertiary": "#ac0c18",
+                        "primary-container": "#2e7d32",
+                        "inverse-surface": "#2e3132",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb3ac",
+                        "on-secondary-container": "#003567",
+                        "on-surface-variant": "#40493d",
+                        "on-tertiary-container": "#ffedeb",
+                        "inverse-primary": "#88d982",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-container": "#edeeef",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#f8f9fa",
+                        "secondary-fixed": "#d4e3ff",
+                        "surface-tint": "#1b6d24",
+                        "primary-fixed-dim": "#88d982"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Wedge drawing using conic-gradient for the radial map */
+        .field-map {
+            background: conic-gradient(
+                #0d631b 0deg 120deg,    /* Green/Primary - Healthy */
+                #e7e8e9 120deg 200deg,  /* Neutral/Surface-High - Unscanned/Idle */
+                #ac0c18 200deg 240deg,  /* Red/Tertiary - Problem */
+                #d02d2d 240deg 280deg,  /* Warning/Tertiary-Container */
+                #0d631b 280deg 360deg   /* Green/Primary - Healthy */
+            );
+            border-radius: 50%;
+        }
+        /* Overlay for the pivot arm */
+        .pivot-arm {
+            transform-origin: bottom center;
+            transform: rotate(45deg); /* Current position */
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body min-h-screen flex flex-col pb-[96px] md:pb-0">
+<!-- TopAppBar -->
+<header class="hidden md:flex bg-[#f8f9fa] dark:bg-[#1a1c1e] text-[#0d631b] dark:text-[#b4f1a6] font-['Inter'] font-bold text-2xl tracking-tight docked w-full top-0 z-50 bg-[#f3f4f5] dark:bg-[#2e2f31] flat no-shadows justify-between items-center h-[72px] px-6 max-w-full">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#444746] dark:text-[#c4c7c5] hover:bg-[#f3f4f5] dark:hover:bg-[#3f4143] active:scale-95 transition-transform duration-200 cursor-pointer p-2 rounded-full" data-icon="menu">menu</span>
+<span class="font-black text-[#0d631b] dark:text-[#b4f1a6] tracking-tighter">Precision Field</span>
+</div>
+<div class="flex items-center gap-6 text-base tracking-normal">
+<span class="text-[#444746] dark:text-[#c4c7c5] hover:bg-[#f3f4f5] dark:hover:bg-[#3f4143] px-3 py-2 rounded-lg cursor-pointer transition-colors">Status</span>
+<span class="text-[#0d631b] dark:text-[#b4f1a6] font-bold border-b-2 border-[#0d631b] px-3 py-2 cursor-pointer">Fields</span>
+<span class="text-[#444746] dark:text-[#c4c7c5] hover:bg-[#f3f4f5] dark:hover:bg-[#3f4143] px-3 py-2 rounded-lg cursor-pointer transition-colors">Control</span>
+<span class="text-[#444746] dark:text-[#c4c7c5] hover:bg-[#f3f4f5] dark:hover:bg-[#3f4143] px-3 py-2 rounded-lg cursor-pointer transition-colors">Reports</span>
+<span class="text-[#444746] dark:text-[#c4c7c5] hover:bg-[#f3f4f5] dark:hover:bg-[#3f4143] px-3 py-2 rounded-lg cursor-pointer transition-colors">Profile</span>
+</div>
+<span class="material-symbols-outlined text-[#444746] dark:text-[#c4c7c5] hover:bg-[#f3f4f5] dark:hover:bg-[#3f4143] active:scale-95 transition-transform duration-200 cursor-pointer p-2 rounded-full" data-icon="sensors">sensors</span>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow flex flex-col md:flex-row p-6 gap-8 max-w-7xl mx-auto w-full">
+<!-- Left: Interactive Map Area -->
+<section class="flex-1 flex flex-col justify-center items-center relative">
+<h1 class="text-[2rem] font-headline font-bold text-on-background mb-8 self-start w-full tracking-tight">Sector Analysis</h1>
+<!-- Map Container (Glassmorphism backdrop) -->
+<div class="relative w-full max-w-[500px] aspect-square rounded-full bg-surface-container-low shadow-[0_12px_32px_rgba(25,28,29,0.06)] p-4 flex items-center justify-center">
+<!-- Actual Field Map -->
+<div class="field-map w-full h-full relative cursor-pointer active:scale-[0.98] transition-transform duration-300">
+<!-- Center Pivot Point -->
+<div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-surface-container-lowest rounded-full shadow-lg z-10 border-4 border-surface"></div>
+<!-- Pivot Arm Overlay -->
+<div class="absolute top-0 left-1/2 w-2 h-1/2 bg-secondary opacity-80 pivot-arm z-0">
+<div class="absolute top-0 -left-2 w-6 h-6 bg-secondary rounded-full shadow-md flex items-center justify-center">
+<div class="w-2 h-2 bg-on-secondary rounded-full"></div>
+</div>
+</div>
+<!-- Decorative Grid Lines (Subtle) -->
+<div class="absolute inset-0 rounded-full border border-outline-variant opacity-20 pointer-events-none"></div>
+<div class="absolute top-1/4 left-1/4 right-1/4 bottom-1/4 rounded-full border border-outline-variant opacity-20 pointer-events-none"></div>
+</div>
+</div>
+</section>
+<!-- Right: Status & Legend Panel -->
+<section class="w-full md:w-[400px] flex flex-col gap-6">
+<!-- Active Sector Card (Pulse Card style) -->
+<div class="bg-surface-container-lowest rounded-xl p-6 border-l-4 border-l-tertiary shadow-[0_12px_32px_rgba(25,28,29,0.06)] flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div>
+<h2 class="text-[1.125rem] font-bold text-on-surface">Sector 4 Alert</h2>
+<p class="text-on-surface-variant text-sm mt-1">Pressure Drop Detected</p>
+</div>
+<span class="material-symbols-outlined text-tertiary" data-icon="warning">warning</span>
+</div>
+<div class="flex items-baseline gap-2 mt-2">
+<span class="text-[3.5rem] font-bold leading-none tracking-tighter text-on-surface">12</span>
+<span class="text-on-surface-variant font-medium">psi</span>
+</div>
+<button class="mt-4 w-full h-[56px] rounded-xl bg-tertiary-container text-on-error-container font-bold tracking-wide active:scale-95 transition-transform">Isolate Sector</button>
+</div>
+<!-- Legend Container -->
+<div class="bg-surface-container-low rounded-xl p-6">
+<h3 class="text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-4">Field Status Legend</h3>
+<ul class="flex flex-col gap-4">
+<li class="flex items-center gap-4">
+<div class="w-6 h-6 rounded-full bg-primary shadow-sm"></div>
+<div class="flex flex-col">
+<span class="font-bold text-on-surface">Optimal</span>
+<span class="text-xs text-on-surface-variant">Moisture &amp; Pressure Nominal</span>
+</div>
+</li>
+<li class="flex items-center gap-4">
+<div class="w-6 h-6 rounded-full bg-surface-container-high shadow-sm border border-outline-variant/30"></div>
+<div class="flex flex-col">
+<span class="font-bold text-on-surface">Idle / Pending</span>
+<span class="text-xs text-on-surface-variant">Awaiting next pass</span>
+</div>
+</li>
+<li class="flex items-center gap-4">
+<div class="w-6 h-6 rounded-full bg-tertiary-container shadow-sm"></div>
+<div class="flex flex-col">
+<span class="font-bold text-on-surface">Warning</span>
+<span class="text-xs text-on-surface-variant">Minor deviation detected</span>
+</div>
+</li>
+<li class="flex items-center gap-4">
+<div class="w-6 h-6 rounded-full bg-tertiary shadow-sm"></div>
+<div class="flex flex-col">
+<span class="font-bold text-on-surface">Critical</span>
+<span class="text-xs text-on-surface-variant">Immediate action required</span>
+</div>
+</li>
+</ul>
+</div>
+<!-- Quick Action -->
+<button class="w-full h-[56px] rounded-xl bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold tracking-wide active:scale-95 transition-transform mt-auto shadow-md">
+                Resume Operation
+            </button>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden bg-white/80 dark:bg-black/80 backdrop-blur-md font-['Inter'] font-bold text-[11px] uppercase tracking-wider text-xs font-bold text-[#0d631b] fixed bottom-0 w-full z-50 rounded-t-[24px] border-none shadow-[0_-8px_32px_rgba(0,0,0,0.06)] shadow-2xl active:scale-90 transition-all duration-300 fixed bottom-0 left-0 w-full flex justify-around items-center h-[96px] pb-4 px-2">
+<div class="flex flex-col items-center justify-center text-[#444746] dark:text-[#c4c7c5] px-6 py-2 hover:text-[#0d631b] dark:hover:text-[#b4f1a6] cursor-pointer">
+<span class="material-symbols-outlined mb-1" data-icon="dashboard">dashboard</span>
+<span>Status</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-gradient-to-br from-[#0d631b] to-[#2e7d32] text-white rounded-[20px] px-6 py-2 cursor-pointer shadow-md">
+<span class="material-symbols-outlined mb-1" data-icon="map">map</span>
+<span>Fields</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#444746] dark:text-[#c4c7c5] px-6 py-2 hover:text-[#0d631b] dark:hover:text-[#b4f1a6] cursor-pointer">
+<span class="material-symbols-outlined mb-1" data-icon="settings_remote">settings_remote</span>
+<span>Control</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#444746] dark:text-[#c4c7c5] px-6 py-2 hover:text-[#0d631b] dark:hover:text-[#b4f1a6] cursor-pointer">
+<span class="material-symbols-outlined mb-1" data-icon="bar_chart">bar_chart</span>
+<span>Reports</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#444746] dark:text-[#c4c7c5] px-6 py-2 hover:text-[#0d631b] dark:hover:text-[#b4f1a6] cursor-pointer">
+<span class="material-symbols-outlined mb-1" data-icon="person">person</span>
+<span>Profile</span>
+</div>
+</nav>
+</body></html>

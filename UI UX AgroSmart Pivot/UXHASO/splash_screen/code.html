@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Precision Field - Splash</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-container": "#d02d2d",
+                      "on-background": "#191c1d",
+                      "surface-container-high": "#e7e8e9",
+                      "primary": "#0d631b",
+                      "primary-fixed": "#a3f69c",
+                      "tertiary-fixed": "#ffdad6",
+                      "on-secondary-fixed": "#001c3a",
+                      "surface-container-lowest": "#ffffff",
+                      "on-surface": "#191c1d",
+                      "on-primary-fixed-variant": "#005312",
+                      "surface-variant": "#e1e3e4",
+                      "error-container": "#ffdad6",
+                      "outline-variant": "#bfcaba",
+                      "on-primary-container": "#cbffc2",
+                      "secondary": "#005faf",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-fixed-variant": "#004786",
+                      "on-error-container": "#93000a",
+                      "error": "#ba1a1a",
+                      "background": "#f8f9fa",
+                      "surface-dim": "#d9dadb",
+                      "surface": "#f8f9fa",
+                      "secondary-fixed-dim": "#a5c8ff",
+                      "on-primary-fixed": "#002204",
+                      "secondary-container": "#54a0fe",
+                      "on-tertiary-fixed-variant": "#930010",
+                      "outline": "#707a6c",
+                      "surface-container-highest": "#e1e3e4",
+                      "on-tertiary-fixed": "#410003",
+                      "tertiary": "#ac0c18",
+                      "primary-container": "#2e7d32",
+                      "inverse-surface": "#2e3132",
+                      "on-tertiary": "#ffffff",
+                      "tertiary-fixed-dim": "#ffb3ac",
+                      "on-secondary-container": "#003567",
+                      "on-surface-variant": "#40493d",
+                      "on-tertiary-container": "#ffedeb",
+                      "inverse-primary": "#88d982",
+                      "surface-container-low": "#f3f4f5",
+                      "surface-container": "#edeeef",
+                      "inverse-on-surface": "#f0f1f2",
+                      "on-primary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "surface-bright": "#f8f9fa",
+                      "secondary-fixed": "#d4e3ff",
+                      "surface-tint": "#1b6d24",
+                      "primary-fixed-dim": "#88d982"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {},
+              "fontFamily": {
+                      "headline": [
+                              "Inter"
+                      ],
+                      "body": [
+                              "Inter"
+                      ],
+                      "label": [
+                              "Inter"
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-primary h-screen w-screen flex flex-col justify-center items-center overflow-hidden font-body text-on-primary">
+<main class="flex flex-col items-center justify-center flex-grow w-full max-w-md px-8 relative z-10">
+<div class="relative mb-12 animate-pulse" style="animation-duration: 3s;">
+<div class="absolute inset-0 bg-primary-fixed opacity-20 blur-3xl rounded-full scale-150"></div>
+<div class="relative w-48 h-48 flex items-center justify-center bg-surface-container-lowest/10 backdrop-blur-[20px] rounded-[32px] border border-surface-container-lowest/20 shadow-[0_12px_32px_rgba(0,0,0,0.15)]">
+<span class="material-symbols-outlined text-[100px] text-surface-container-lowest drop-shadow-[0_4px_12px_rgba(0,0,0,0.2)]" style="font-variation-settings: 'FILL' 1;">
+                    sensors
+                </span>
+<div class="absolute -bottom-4 -right-4 w-16 h-16 bg-secondary rounded-full flex items-center justify-center shadow-[0_8px_24px_rgba(0,95,175,0.4)] border-4 border-primary">
+<span class="material-symbols-outlined text-surface-container-lowest text-3xl" style="font-variation-settings: 'FILL' 1;">
+                        water_drop
+                    </span>
+</div>
+</div>
+</div>
+<div class="text-center space-y-4">
+<h1 class="font-headline font-black text-5xl tracking-tighter text-surface-container-lowest drop-shadow-md">
+                Precision Field
+            </h1>
+<p class="font-headline font-bold text-xl tracking-wider text-primary-fixed uppercase opacity-90">
+                Precision in Every Drop
+            </p>
+</div>
+<div class="absolute bottom-16 left-0 w-full flex justify-center">
+<div class="w-16 h-16 rounded-full border-4 border-surface-container-lowest/20 border-t-surface-container-lowest animate-spin"></div>
+</div>
+</main>
+<div class="absolute inset-0 z-0 pointer-events-none overflow-hidden mix-blend-overlay opacity-30">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<path d="M0,50 Q25,30 50,50 T100,50" fill="none" stroke="currentColor" stroke-width="0.5"></path>
+<path d="M0,60 Q25,40 50,60 T100,60" fill="none" stroke="currentColor" stroke-width="0.5"></path>
+<path d="M0,70 Q25,50 50,70 T100,70" fill="none" stroke="currentColor" stroke-width="0.5"></path>
+</svg>
+</div>
+</body></html>

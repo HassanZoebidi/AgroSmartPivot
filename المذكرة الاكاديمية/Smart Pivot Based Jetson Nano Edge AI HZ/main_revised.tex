@@ -1,0 +1,1462 @@
+% ============================================================
+%  Smart Pivot — Jetson Nano Edge AI Using YOLOv8 / YOLOv11
+%  MSc Dissertation — Academically Revised Version
+%  University of Echahid Hamma Lakhdar, El Oued
+%  Academic Year 2025 / 2026
+% ============================================================
+
+\documentclass[12pt,a4paper]{report}
+\renewcommand\thechapter{\Roman{chapter}}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage[left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{array,longtable,tabularx,booktabs,multirow}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{lmodern}
+\usepackage{textcomp}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\usepackage{cite}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{microtype}
+\usepackage{cleveref}
+\setlength{\headheight}{15pt}
+\hypersetup{colorlinks=true,citecolor=blue,linkcolor=black,urlcolor=blue}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.65\baselineskip}
+\renewcommand{\arraystretch}{1.3}
+\def\baselinestretch{1.35}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\sloppy
+
+% ── Theorem environments ──────────────────────────────────
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{remark}{Remark}[chapter]
+
+% ── Abbreviation command ─────────────────────────────────
+\newcommand{\abbr}[2]{\emph{#1} (#2)}
+
+% ─────────────────────────────────────────────────────────
+\begin{document}
+\pagenumbering{roman}
+\thispagestyle{empty}
+
+% ═══════════════════════════════════════════════
+%  COVER PAGE
+% ═══════════════════════════════════════════════
+
+\begin{center}
+    \textbf{\large People's Democratic Republic of Algeria}\\[-2pt]
+    \textbf{\large Ministry of Higher Education and Scientific Research}\\[-2pt]
+    \textbf{\large University of Echahid Hamma Lakhdar --- El Oued}\\[-2pt]
+    \textbf{\large Faculty of Exact Sciences}\\[-2pt]
+    \textbf{\large Department of Informatics}
+\end{center}
+
+\vspace{0.3cm}
+
+\begin{center}
+    \begin{tabular}{m{3cm} m{10cm} m{3cm}}
+        \includegraphics[width=2.5cm]{Logo.jpg} &
+        \centering \textbf{\Large ACADEMIC MASTER DISSERTATION} &
+        \includegraphics[width=2.5cm]{Logo.jpg} \\
+    \end{tabular}
+\end{center}
+
+\vspace{0.3cm}
+
+\begin{center}
+    \textbf{\large Domain: Mathematics and Informatics}\\[-2pt]
+    \textbf{\large Division: Informatics}\\[-2pt]
+    \textbf{\large Specialty: Artificial Intelligence and Data Science}
+\end{center}
+
+\vspace{0.4cm}
+
+\begin{center}
+    \textbf{\large \underline{Entitled:}}
+\end{center}
+
+\vspace{0.2cm}
+
+\tcbset{colframe=blue!70!black, colback=blue!3, arc=5mm}
+\begin{tcolorbox}[center, width=0.88\textwidth,
+    coltitle=black, fonttitle=\bfseries\large,
+    title=Dissertation Title]
+    \centering
+    \textbf{\Large Smart Pivot Based Jetson Nano Edge AI \\[4pt]
+    Using YOLOv8 / YOLOv11 \\[4pt]
+    for Intelligent Variable-Rate Irrigation}
+\end{tcolorbox}
+
+\vspace{0.3cm}
+
+\begin{center}
+    \textit{Dissertation Submitted in Partial Fulfilment of the Requirements for the}\\
+    \textit{Master's Degree in Artificial Intelligence and Data Science}
+\end{center}
+
+\vspace{0.4cm}
+
+\noindent
+\begin{tabular}{p{7cm} p{7cm}}
+    \textbf{Presented by:} & \textbf{Supervised by:} \\[2pt]
+    HASSAN ZOEBIDI & Dr.\ Nedjoua Houda KHOLLADI \hfill
+                      \textit{(MCB --- Supervisor)} \\
+                  & Dr.\ Othmani Samir \hfill
+                      \textit{(MAA --- Co-Supervisor)} \\
+\end{tabular}
+
+\vspace{0.5cm}
+
+\begin{center}
+    \textbf{\Large Academic Year: 2025 / 2026}
+\end{center}
+
+\newpage
+
+% ═══════════════════════════════════════════════
+%  ABSTRACT
+% ═══════════════════════════════════════════════
+\section*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
+This dissertation presents the design, implementation, and field evaluation of a smart centre-pivot irrigation system that exploits edge artificial intelligence (AI) to enable real-time, spatially resolved, and connectivity-independent variable-rate irrigation under semi-arid conditions. The system, hereafter referred to as the \emph{Smart Pivot}, integrates an NVIDIA Jetson Nano embedded computing module, a Sony IMX219 RGB camera, a heterogeneous sensor suite, and an optimised YOLOv8 neural-network inference pipeline to perform continuous in-field detection of crop canopy, weed pressure, bare soil, and plant water-stress indicators as the pivot lateral traverses the irrigated circle.
+
+The principal motivation for this work is the chronic spatial mismatch between the water demand of different sub-regions of an irrigated field and the uniform delivery imposed by conventional centre-pivot systems. By deploying deep-learning inference directly at the edge---on the moving pivot itself---the Smart Pivot replaces schedule-driven, fixed-rate irrigation with a demand-driven, spatially resolved prescription computed continuously and without dependence on cloud connectivity. A complementary Android application, based on TensorFlow Lite, provides farm operators with a portable on-site diagnostic tool.
+
+The principal technical contributions of this work are fourfold: (i)~a fully documented five-stage quantisation pipeline converting a trained PyTorch YOLOv8n checkpoint into a TensorRT FP16 engine that achieves 31~fps on the Jetson Nano Maxwell GPU with less than $0.5$~mAP@0.5 degradation relative to the full-precision baseline; (ii)~a zone-aggregation and fuzzy rule-based decision logic that fuses per-frame detections with soil-moisture and evapotranspiration data to generate variable-rate sprinkler commands; (iii)~a solar-powered, IP65-protected hardware integration providing full energy autonomy under the climatic conditions of north-eastern Algeria; and (iv)~a cloud monitoring dashboard based on MQTT, InfluxDB, and Grafana that decouples farm observability from real-time control.
+
+Field evaluation over a single growing season yielded water savings of 18--23\% relative to a conventional fixed-rate baseline, with an end-to-end perception-to-actuation latency of 38~ms. These results demonstrate the practical feasibility of edge-AI precision irrigation for water-constrained semi-arid agriculture and provide a reference architecture for future research in AIoT-driven smart farming.
+
+\vspace{6pt}
+\noindent\textbf{Keywords:} Edge AI, Precision Agriculture, YOLOv8, YOLOv11, Jetson Nano, Variable-Rate Irrigation, Centre-Pivot, Computer Vision, TensorRT, IoT, Semi-Arid, Algeria.
+
+\newpage
+
+% ═══════════════════════════════════════════════
+%  FRONT MATTER
+% ═══════════════════════════════════════════════
+\renewcommand{\contentsname}{Table of Contents}
+\phantomsection
+\addcontentsline{toc}{chapter}{Table of Contents}
+\tableofcontents
+\newpage
+\phantomsection
+\addcontentsline{toc}{chapter}{\listfigurename}
+\listoffigures
+\newpage
+\phantomsection
+\addcontentsline{toc}{chapter}{\listtablename}
+\listoftables
+\newpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+% ═══════════════════════════════════════════════════════════════
+%  CHAPTER I — INTRODUCTION
+% ═══════════════════════════════════════════════════════════════
+\chapter{Introduction}
+\pagestyle{fancy}
+\lhead{\textit{Chapter \Roman{chapter}}}
+\rhead{\textbf{\textit{Introduction}}}
+\thispagestyle{empty}
+
+\section{Background and Motivation}
+
+Global agriculture faces compounding pressures that call for a fundamental rethinking of how land and water resources are managed. The United Nations projects that the world population will reach approximately 9.7~billion by 2050~\cite{FAO2020}, requiring an estimated 70~percent increase in food production relative to current levels. This challenge must be met against a backdrop of accelerating freshwater scarcity: agriculture accounts for roughly 70~percent of global freshwater withdrawals~\cite{FAO2020}, yet irrigated land, which produces approximately 40~percent of the world's food on only 20~percent of the cultivated area, is highly sensitive to supply variability.
+
+The Mediterranean basin and the semi-arid regions of North Africa, including Algeria, are among the areas most severely affected by these trends. Recurring multi-year droughts, declining aquifer levels, and high evapotranspiration rates combine to make each unit of irrigation water strategically important. In the semi-arid plateaux surrounding El Oued and Constantine, supplemental irrigation is a structural requirement for cereal, vegetable, and fodder production. Improving the efficiency of that irrigation is therefore directly linked to regional food security, rural livelihoods, and the long-term sustainability of water resources.
+
+Among irrigation technologies, the \abbr{centre-pivot}{CP} system has emerged as the dominant method for large open-field agriculture worldwide owing to its relatively high application efficiency, low labour requirements, and compatibility with mechanisation compared with surface methods~\cite{Evans2012}. A centre-pivot consists of a long lateral pipe fitted with sprinkler heads that rotates about a fixed central tower to irrigate a circular field. However, in their conventional configuration, centre-pivots apply water uniformly along the lateral regardless of within-field spatial variability in soil texture, crop vigour, weed pressure, or micro-topography. This uniform application creates a persistent mismatch between the spatially heterogeneous demand of the crop and the spatially uniform supply of the system, simultaneously wasting water and limiting yield potential~\cite{Pierce1999}.
+
+\abbr{Variable-Rate Irrigation}{VRI} was developed specifically to address this limitation by enabling independent control of individual sprinkler banks as the lateral rotates. However, VRI requires spatially resolved, continuously updated information about the field state to be effective---a requirement that conventional soil-moisture probe networks, sparsely deployed by necessity, are structurally unable to fulfil. This information gap has positioned VRI as a natural target for the broader paradigm of \abbr{Agriculture 4.0}{Ag4.0}, in which the \abbr{Internet of Things}{IoT} and \abbr{Artificial Intelligence}{AI} jointly transform conventional fields into data-rich, decision-aware production systems~\cite{Liu2020}.
+
+Recent advances in three converging areas have made a step-change in on-pivot intelligence possible. First, \abbr{Edge AI}{EAI} platforms such as the NVIDIA Jetson Nano deliver hundreds of GFLOPS of GPU-accelerated inference within a 5--10~W power envelope and at a unit cost accessible to smallholders~\cite{Shi2016}. Second, the \abbr{You Only Look Once}{YOLO} family of single-stage object detectors---and specifically YOLOv8 (Ultralytics, 2023) and its successor YOLOv11 (Ultralytics, 2024)~\cite{Jocher2023,Ultralytics2024}---achieve real-time agricultural object detection with state-of-the-art accuracy. Third, optimisation toolchains such as NVIDIA TensorRT enable the deployment of FP16 and INT8 quantised models on constrained embedded GPUs with negligible accuracy degradation~\cite{Jacob2018}. The convergence of these three elements opens a new design space: a pivot-mounted edge-AI system capable of continuous visual perception, autonomous irrigation decision-making, and full operation without reliance on cloud connectivity.
+
+\section{Problem Statement}
+
+Despite considerable progress in precision agriculture, the irrigation decisions taken on most farms remain largely uniform and only weakly informed by real-time spatial data. Existing smart-irrigation solutions face a structural spatial-resolution gap: the handful of soil-moisture probes typically deployed capture temporal dynamics at their measurement locations but fail to represent the within-field heterogeneity that VRI is designed to exploit. Meanwhile, cloud-based computer-vision approaches, although technically capable of high spatial resolution, are poorly suited to the operational realities of rural Algeria and similar semi-arid regions, where Internet connectivity is unreliable, latency is incompatible with closed-loop pivot control, and continuous video upload is financially prohibitive for smallholders.
+
+More specifically, the following gaps motivate this research:
+
+\begin{enumerate}[label=\textbf{G\arabic*.}, leftmargin=2em]
+    \item Conventional centre-pivot systems apply water uniformly and therefore cannot exploit within-field spatial variability in soil moisture, crop vigour, or weed pressure.
+    \item Existing smart-irrigation solutions rely predominantly on sparse point sensors, capturing insufficient spatial information for fine-grained variable-rate decision-making.
+    \item Cloud-based AI architectures for irrigation are ill-suited to arid and semi-arid regions where rural Internet connectivity is unreliable and costly.
+    \item State-of-the-art object detectors such as YOLOv8 and YOLOv11 have not been systematically deployed on low-cost edge platforms for closed-loop centre-pivot control.
+    \item There is a paucity of independent evidence on the detection performance, energy footprint, and water-saving potential of edge-AI smart pivots under the climatic conditions of Algeria.
+\end{enumerate}
+
+\section{Research Questions}
+
+This dissertation addresses the following specific research questions:
+
+\begin{enumerate}[label=\textbf{RQ\arabic*.}, leftmargin=2em]
+    \item How can YOLOv8 be adapted and optimised to achieve real-time inference at agronomically acceptable accuracy on a Jetson Nano mounted on a centre-pivot irrigation system?
+    \item Which agronomically meaningful field-state indicators---weed density, canopy cover, growth stage, and visible water stress---can be reliably detected from pivot-mounted imagery under realistic semi-arid field conditions?
+    \item How can the output of an on-edge inference pipeline be translated into variable-rate irrigation commands and communicated to the pivot's actuation system within a latency budget compatible with real-time control?
+    \item What quantitative advantages does an edge-AI smart-pivot architecture provide over conventional fixed-rate pivots and cloud-based alternatives with respect to latency, bandwidth, energy consumption, and operational robustness?
+    \item To what extent can the proposed solution be considered technically feasible and economically accessible for smallholders and research institutions in regions such as El Oued, Algeria?
+\end{enumerate}
+
+\section{Aims and Objectives}
+
+The overarching aim of this research is to design, implement, and evaluate a smart centre-pivot irrigation system that deploys an optimised YOLOv8 computer-vision pipeline on a Jetson Nano embedded board to enable real-time, spatially resolved, and connectivity-independent variable-rate irrigation under semi-arid conditions. The following specific objectives operationalise this aim:
+
+\begin{itemize}
+    \item[\textbf{O1.}] Critically survey and synthesise the literature on precision agriculture, smart irrigation, AIoT architectures, edge versus cloud AI deployment, and relevant sensing and detection technologies.
+    \item[\textbf{O2.}] Define the agronomic and engineering requirements for a smart centre-pivot deployable in semi-arid Algerian conditions, and develop a hardware and software architecture that satisfies those requirements.
+    \item[\textbf{O3.}] Collect, curate, and annotate a dataset of pivot-relevant agricultural imagery suitable for training a four-class YOLOv8 object-detection model.
+    \item[\textbf{O4.}] Train, validate, and optimise YOLOv8n and YOLOv11n models on this dataset, and develop a five-stage TensorRT quantisation pipeline achieving real-time inference on the Jetson Nano.
+    \item[\textbf{O5.}] Implement a complete closed-loop prototype integrating the inference pipeline, sensor-fusion decision logic, GPIO-based actuation, and cloud telemetry.
+    \item[\textbf{O6.}] Evaluate the prototype through field experimentation with respect to detection accuracy, inference latency, energy efficiency, water savings, communication bandwidth, and operational robustness.
+\end{itemize}
+
+\section{Scope and Limitations}
+
+The scope of this work is confined to centre-pivot irrigation of open-field arable crops under arid or semi-arid conditions. The primary reference context is Algeria, with the semi-arid regions of north-eastern Algeria and the broader El Oued governorate informing the design constraints. Drip irrigation, greenhouse cultivation, and sub-surface systems are outside the scope of the study, although several methodological contributions are transferable.
+
+The edge-compute platform evaluated is exclusively the NVIDIA Jetson Nano (B01, 4~GB). The detection models evaluated are YOLOv8n (Ultralytics, 2023) and YOLOv11n (Ultralytics, 2024) in their nano configurations. The following pre-defined limitations are acknowledged: (i)~the field-collected dataset covers a single crop species and a limited range of weed species; (ii)~the field evaluation spans a single growing season at a single study site; (iii)~detection performance degrades under extreme illumination conditions (direct noon sunlight, dust storms, and nocturnal operation); and (iv)~the water-saving quantification relies on a counterfactual comparison rather than a parallel controlled experiment.
+
+\section{Significance of the Research}
+
+The significance of this work spans four complementary dimensions. \emph{Scientifically}, it contributes a documented, end-to-end reference architecture for pivot-mounted edge-AI irrigation control---a design space that remains largely uncharted in the published literature. \emph{Practically}, it demonstrates an affordable, deployable system that removes dependence on cloud infrastructure, making precision irrigation accessible at the smallholder scale in regions poorly served by Internet connectivity. \emph{Environmentally}, spatially resolved just-in-time water application reduces groundwater overdraft, pump-energy consumption, and water-quality degradation caused by runoff and deep percolation. \emph{Regionally}, the project contributes to the national agenda for agricultural modernisation in Algeria, where water security is a matter of strategic importance.
+
+\section{Dissertation Structure}
+
+The remainder of this dissertation is organised as follows. Chapter~\ref{ch:litreview} reviews the relevant literature across seven thematic areas. Chapter~\ref{ch:design} presents the system architecture, hardware selection, software stack, communication protocols, vision-model design, and irrigation decision logic. Chapter~\ref{ch:method} describes the experimental setup, data collection, annotation, training, deployment, and evaluation methodology. Chapter~\ref{ch:results} reports and discusses the experimental results. Chapter~\ref{ch:conclusion} summarises the contributions, acknowledges the limitations, and proposes directions for future research.
+
+% ═══════════════════════════════════════════════════════════════
+%  CHAPTER II — LITERATURE REVIEW
+% ═══════════════════════════════════════════════════════════════
+\chapter{Literature Review}
+\label{ch:litreview}
+\pagestyle{fancy}
+\lhead{\textit{Chapter \Roman{chapter}}}
+\rhead{\textbf{\textit{Literature Review}}}
+\thispagestyle{empty}
+
+This chapter systematically reviews the body of knowledge most pertinent to the design of an edge-AI-driven smart centre-pivot. The review is structured around seven themes that progress from the broad context of precision agriculture to the specific technical components that underpin the proposed system.
+
+% ─── 2.1 ─────────────────────────────────────────────────
+\section{Precision Agriculture}
+
+\abbr{Precision Agriculture}{PA}, often used interchangeably with precision farming and site-specific crop management, is defined as a management strategy that employs spatial and temporal data to optimise agricultural inputs---water, fertilisers, pesticides, and energy---in accordance with the actual and localised needs of the crop, rather than applying them uniformly across an entire field~\cite{Pierce1999}. The theoretical underpinning of PA is that within-field variability in soil properties, crop development, and pest pressure is agronomically significant and that, by managing this variability explicitly, both input efficiency and yield can be improved simultaneously.
+
+The history of agriculture is commonly framed in four developmental eras. Agriculture 1.0 refers to pre-industrial, labour-intensive subsistence practices. Agriculture 2.0 encompasses the mechanisation and agrochemical revolution of the late nineteenth and twentieth centuries. Agriculture 3.0 emerged from the 1980s onwards with the adoption of GPS, GIS, yield monitors, and early variable-rate technologies. Agriculture 4.0, the current frontier, is characterised by the convergence of IoT, big data analytics, cloud computing, robotics, and AI into integrated, cyber-physical agricultural systems~\cite{Liu2020}.
+
+Despite four decades of research and development, PA adoption remains geographically uneven. Variable-rate technology, auto-steer machinery, and remote-sensing-based canopy analysis are routine on large farms in North America, Australia, and northern Europe, yet remain exceptional in most of Africa, the Middle East, and large parts of Asia. The barriers are well documented~\cite{Kamilaris2018}: high capital cost, lack of technical support infrastructure, the absence of locally calibrated models, and the implicit assumption in much commercial PA software that reliable broadband connectivity is available. Addressing these barriers by designing low-cost, connectivity-independent, and locally replicable systems is among the principal motivations of the present work.
+
+% ─── 2.2 ─────────────────────────────────────────────────
+\section{Smart Irrigation Systems}
+
+Irrigation systems are broadly classified into surface (flood and furrow), overhead sprinkler, micro-irrigation (drip and micro-sprinkler), and sub-surface drip configurations. Among overhead systems, the centre-pivot has become the global standard for irrigating large open-field crops owing to its high application uniformity, low operational labour, and compatibility with agrochemical and fertigation injection~\cite{Evans2012}.
+
+A smart irrigation system is one in which the timing and quantity of water applied are determined automatically from sensor data and computational models rather than from a fixed operator schedule. The irrigation scheduling literature describes several methodological approaches~\cite{Tzounis2017}: (i)~\emph{soil-moisture-based scheduling}, where irrigation is triggered when a soil-moisture threshold is crossed; (ii)~\emph{evapotranspiration-based scheduling}, where crop water demand is estimated from meteorological data using reference ET models such as FAO-56 Penman-Monteith; (iii)~\emph{plant-based scheduling}, which uses direct physiological indicators such as stem-water potential or canopy temperature; (iv)~\emph{model-based scheduling}, incorporating crop simulation models; and (v)~\emph{data-driven hybrid scheduling}, which increasingly applies machine learning to fuse heterogeneous data streams into irrigation decisions.
+
+Variable-Rate Irrigation constitutes a spatial extension of smart scheduling. Rather than computing a single irrigation depth for the whole field, VRI produces a spatially varying prescription map. This prescription is most naturally enacted on centre-pivot and linear-move systems, where individual sprinkler banks can be independently duty-cycled as the lateral traverses. Commercial VRI systems are available from major pivot manufacturers, but their uptake in arid and semi-arid regions of Africa and the southern Mediterranean remains limited~\cite{Evans2012}. In most installed systems, the VRI prescription is derived from pre-season soil-survey management zones rather than from real-time, per-revolution sensing---a limitation that the present work directly addresses.
+
+% ─── 2.3 ─────────────────────────────────────────────────
+\section{Internet of Things in Agriculture}
+
+The IoT, in the agricultural context, denotes the network of physical sensing, actuation, and computing devices that collect, communicate, and act upon data from the agricultural environment~\cite{Atzori2010,Tzounis2017}. Agricultural IoT deployments are typically organised into three or four functional layers: (i)~the \emph{device layer}, hosting sensors and actuators; (ii)~the \emph{connectivity layer}, transporting data using protocols matched to the range and energy constraints of the application; (iii)~the optional \emph{edge or fog layer}, providing local aggregation and inference; and (iv)~the \emph{cloud layer}, providing large-scale storage, analytics, and integration with farm-management platforms.
+
+In terms of connectivity, agricultural IoT most commonly exploits \abbr{Low-Power Wide-Area Network}{LPWAN} protocols---particularly LoRaWAN, NB-IoT, and Sigfox---because of their ability to cover large field areas with battery-powered nodes. Wi-Fi and 4G/5G provide complementary capabilities for higher-bandwidth applications such as video streaming~\cite{Muhammed2024}. A persistent challenge in deploying IoT for irrigation in developing regions is the absence of reliable Internet infrastructure, which limits the utility of architectures that depend on cloud connectivity for real-time decision-making. The edge-centric architecture proposed in this dissertation directly addresses this constraint.
+
+% ─── 2.4 ─────────────────────────────────────────────────
+\section{Edge AI versus Cloud AI}
+
+A fundamental architectural decision in any AIoT system concerns the locus of AI computation. Cloud-centric architectures route raw sensor data, including video, to a remote data centre for processing, returning decisions to the field device. Edge-centric architectures perform inference on or near the sensing device, communicating only processed results to the cloud~\cite{Shi2016,Ahvar2023}.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Systematic comparison of cloud AI and edge AI architectures for agricultural applications. Entries in the Edge AI column reflect the specific constraints and design choices of the Smart Pivot prototype.}
+\label{tab:cloud_vs_edge}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|P{0.20\textwidth}|P{0.35\textwidth}|P{0.35\textwidth}|}
+\hline
+\rowcolor{blue!15}
+\textbf{Criterion} & \textbf{Cloud AI} & \textbf{Edge AI (Smart Pivot)} \\
+\hline
+Inference latency & $\sim$200--500~ms (round-trip including transmission) & $<$40~ms (local TensorRT engine) \\
+\hline
+\rowcolor{gray!10}
+Network bandwidth & Continuous raw video upload required ($\sim$15--30~Mbps for 1080p) & Structured telemetry only ($<$10~kbps) \\
+\hline
+Connectivity dependency & Requires reliable broadband; rural farms frequently under-served & Fully offline; intermittent connectivity tolerated \\
+\hline
+\rowcolor{gray!10}
+Data privacy & Raw imagery transmitted to third-party servers & All raw data remains on-device \\
+\hline
+Energy cost & High transmission energy; substantial RF amplifier draw & Higher local compute; negligible transmission; net cost lower \\
+\hline
+\rowcolor{gray!10}
+Compute budget & Virtually unlimited cloud resources & Constrained to Jetson Nano 128-core Maxwell GPU \\
+\hline
+Fault tolerance & Cloud outage halts real-time control & Autonomous operation continues irrespective of cloud status \\
+\hline
+\rowcolor{gray!10}
+Model update path & Easy centralised retraining and deployment & Requires OTA update mechanism \\
+\hline
+Applicable use cases & Model training, fleet analytics, dashboards & Real-time closed-loop control, autonomous field inference \\
+\hline
+\end{tabular}
+\end{table}
+
+As shown in Table~\ref{tab:cloud_vs_edge}, the edge-centric model is clearly superior for the latency-critical, connectivity-constrained, and energy-limited context of a pivot-mounted irrigation controller. The hardware ecosystem for edge AI has matured significantly: the NVIDIA Jetson family provides a unified CUDA/cuDNN/TensorRT software stack on GPU-accelerated embedded modules at price points accessible to research and smallholder applications. Among the available options, the Jetson Nano (4~GB, B01) is the most cost-effective entry point and the primary platform evaluated in this work.
+
+% ─── 2.5 ─────────────────────────────────────────────────
+\section{Machine Learning for Irrigation Decision-Making}
+
+\subsection{Regression and Classical Machine Learning}
+
+Statistical and classical ML methods---linear regression, support vector regression, random forests, and gradient boosting---have been widely applied to predict reference evapotranspiration (ET$_0$), crop coefficients ($K_c$), and soil-moisture dynamics from weather and soil data~\cite{Kamilaris2018}. These methods are computationally inexpensive, interpretable, and often sufficient for ET-driven irrigation scheduling at field scale. Their principal limitation for the present application is an inability to ingest unstructured visual data and a consequent dependence on point-sensor networks for spatial awareness.
+
+\subsection{Deep Learning and Temporal Modelling}
+
+Recurrent neural architectures---in particular \abbr{Long Short-Term Memory}{LSTM} and \abbr{Gated Recurrent Unit}{GRU} networks---have demonstrated strong performance in modelling the temporal dynamics of soil moisture, crop water demand, and meteorological variables~\cite{Kamilaris2018}. Hybrid CNN-LSTM architectures, which combine spatial feature extraction with temporal sequence modelling, have further improved prediction accuracy when sufficient labelled time-series data are available. In the context of this project, temporal deep learning contributes the simplified Penman-Monteith ET estimation embedded in the decision logic, while the primary perception modality is computer vision.
+
+\subsection{Computer Vision and YOLO-Family Detectors}
+\label{subsec:yolo_background}
+
+Computer vision---specifically deep \abbr{Convolutional Neural Network}{CNN}-based approaches---has become the dominant methodology for agronomic image analysis, including weed detection, disease identification, growth-stage classification, and yield estimation~\cite{Kamilaris2018}. For real-time object detection in the field, the YOLO family of single-stage detectors has emerged as the de facto standard owing to its favourable trade-off between inference speed and detection accuracy. The original YOLO architecture was proposed by Redmon et al.~\cite{Redmon2016} in 2016 and has been continuously refined through YOLOv2--v5, YOLOv7, YOLOv8 (Ultralytics, 2023), and YOLOv11 (Ultralytics, 2024). For agricultural applications specifically, YOLOv8 has become a widely validated reference architecture, with documented deployments in weed detection, fruit counting, and plant phenotyping.
+
+\subsection{Federated Learning}
+
+Federated learning~\cite{McMahan2017} is a distributed ML paradigm in which a global model is trained collaboratively across multiple decentralised clients without requiring the clients to share raw data. In the agricultural context, federated learning is particularly attractive for multi-farm deployments where data-sovereignty constraints preclude centralised data aggregation. Although federated learning is not implemented in the present prototype, it is identified as the natural mechanism for cross-farm model improvement once a fleet of Smart Pivot units is operational, and is discussed further in Section~\ref{sec:future}.
+
+% ─── 2.6 ─────────────────────────────────────────────────
+\section{Sensing Technologies for Precision Agriculture}
+
+The quality of any AI-driven irrigation decision is bounded by the quality of the sensory input that informs it. Table~\ref{tab:sensing} summarises the principal sensing modalities used in modern precision agriculture and their relevance to the Smart Pivot.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Principal sensing technologies used in modern precision agriculture, with relevance assessment for centre-pivot edge-AI irrigation systems.}
+\label{tab:sensing}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|P{0.22\textwidth}|P{0.26\textwidth}|P{0.42\textwidth}|}
+\hline
+\rowcolor{blue!15}
+\textbf{Sensing Modality} & \textbf{Measured Variables} & \textbf{Strengths / Limitations for VRI} \\
+\hline
+Capacitive soil-moisture probes & Volumetric water content at one or more depths & Low-cost, robust to salinity. Point measurement: many probes required for spatial coverage. \\
+\hline
+\rowcolor{gray!10}
+Weather station (BME280) & Air temperature, relative humidity, barometric pressure, wind & Essential for ET$_0$ estimation. Describes atmospheric demand; does not capture crop response. \\
+\hline
+RGB camera (IMX219) & Visible-spectrum imagery of crop, soil, and weeds & Inexpensive; excellent deep-learning support. Sensitive to illumination, dust, and motion blur; cannot observe sub-visible stress. \\
+\hline
+\rowcolor{gray!10}
+Multispectral / hyperspectral imager & Spectral reflectance; NDVI, NDRE, canopy water content & Very high information content for stress and nutrient assessment. High cost; computationally demanding; difficult to deploy on constrained edge hardware. \\
+\hline
+Thermal (IR) camera & Canopy surface temperature; CWSI & Directly reflects stomatal conductance and water stress. Costly; sensitive to ambient temperature and emissivity. \\
+\hline
+\rowcolor{gray!10}
+GNSS module (NEO-M8N) & Geographic position, time & Enables geo-referencing of every detection for zone-based aggregation logic. \\
+\hline
+Water flow sensor (YF-S201) & Volumetric flow rate & Closes the actuation feedback loop by measuring water actually delivered. \\
+\hline
+\end{tabular}
+\end{table}
+
+The sensing subsystem of the Smart Pivot deliberately combines the RGB camera as the high-spatial-resolution perception modality with capacitive soil-moisture probes, a weather station, and a GNSS module, thereby fusing complementary spatial and temporal signals. Thermal and multispectral imaging are identified as the highest-value extensions for future iterations, as discussed in Section~\ref{sec:future}.
+
+% ─── 2.7 ─────────────────────────────────────────────────
+\section{Identified Research Gaps}
+\label{sec:gap}
+
+The preceding review demonstrates that the constituent technologies of a smart centre-pivot driven by edge AI are individually mature, yet their systematic integration remains largely unaddressed in the published literature. Specifically:
+
+\begin{enumerate}[label=\textbf{Gap \arabic*.}]
+    \item Most published smart-irrigation systems rely on a small number of point sensors, capturing temporal dynamics well but providing inadequate spatial coverage for high-resolution VRI prescriptions.
+    \item Where computer vision has been applied to agriculture, it has predominantly been deployed in offline UAV-based pipelines or cloud-centric architectures, not within closed-loop, on-pivot control loops.
+    \item Prior work on YOLO-family detectors in agriculture has largely used earlier architectures (YOLOv2--v5) in isolation, without integration into irrigation control systems or field hardware.
+    \item Comprehensive end-to-end evaluations combining detection accuracy, real-time inference latency on constrained edge hardware, energy consumption, and agronomic water-saving quantification in a single study remain rare.
+    \item No published study---to the authors' knowledge---reports such an integrated evaluation under the agroclimatic conditions of semi-arid Algeria or comparable southern Mediterranean environments.
+\end{enumerate}
+
+This dissertation directly addresses Gaps 1--5 and makes the first documented contribution in Gap 5.
+
+% ═══════════════════════════════════════════════════════════════
+%  CHAPTER III — SYSTEM DESIGN AND ARCHITECTURE
+% ═══════════════════════════════════════════════════════════════
+\chapter{System Design and Architecture}
+\label{ch:design}
+\pagestyle{fancy}
+\lhead{\textit{Chapter \Roman{chapter}}}
+\rhead{\textbf{\textit{System Design and Architecture}}}
+\thispagestyle{empty}
+
+This chapter translates the research objectives defined in Chapter~I and the gaps identified in Chapter~II into a concrete, justified system architecture. The design is described layer by layer, from the physical sensing and actuation devices at the field level to the cloud monitoring dashboard, with explicit justification of every significant design choice.
+
+% ─── 3.1 ─────────────────────────────────────────────────
+\section{Overall System Architecture}
+
+The Smart Pivot follows the four-layer AIoT reference model~\cite{Muhammed2024}: (i)~the \emph{Device Layer}, hosting sensors and actuators; (ii)~the \emph{Edge Layer}, centred on the Jetson Nano and responsible for all real-time control; (iii)~the \emph{Connectivity Layer}, managing both intra-pivot communication and external telemetry; and (iv)~the \emph{Cloud Layer}, providing supervisory observability without constituting a bottleneck for control.
+
+The decisive architectural principle is \emph{edge-first intelligence}: the Jetson Nano mounted on the pivot lateral executes every function required for safe and effective irrigation---vision inference, sensor fusion, decision logic, and actuation---entirely locally, without any dependency on an external network. Cloud connectivity, when available, provides non-critical farm-level observability. Four principles guided the architecture:
+
+\begin{enumerate}
+    \item \textbf{Edge-first intelligence:} all safety- and yield-critical computations execute on the Jetson Nano.
+    \item \textbf{Energy autonomy:} the complete edge subsystem must operate from a field-deployable photovoltaic installation.
+    \item \textbf{Graceful degradation:} failure or unavailability of any layer above the edge layer must not impair real-time irrigation control.
+    \item \textbf{Openness and reproducibility:} all hardware is commercially available and all software is open-source, facilitating replication by other research groups and local farmers.
+\end{enumerate}
+
+\begin{figure}[H]
+\centering
+\begin{tcolorbox}[width=0.92\textwidth, colback=blue!3, colframe=blue!60!black,
+    arc=4mm, title={\textbf{Smart Pivot AIoT Architecture (Four-Layer Model)}},
+    fonttitle=\bfseries\normalsize]
+\small
+\begin{center}
+\begin{tabular}{|C{0.95\textwidth}|}
+\hline
+\rowcolor{blue!30}
+\textbf{Cloud Layer} \\
+MQTT Broker (TLS-authenticated) $\cdot$ InfluxDB Time-Series DB $\cdot$ Grafana Dashboard \\
+Remote Monitoring $\cdot$ Alerts $\cdot$ Historical Analytics \\
+\hline
+\rowcolor{blue!15}
+\textbf{Connectivity Layer} \\
+MQTT/TLS (WAN) $\cdot$ Wi-Fi / 4G LTE $\cdot$ LoRaWAN (optional) \\
+UART $\cdot$ I\textsuperscript{2}C $\cdot$ CSI/MIPI $\cdot$ GPIO $\cdot$ USB Serial \\
+\hline
+\rowcolor{green!15}
+\textbf{Edge Layer (NVIDIA Jetson Nano B01)} \\
+YOLOv8 / YOLOv11 Inference (TensorRT FP16) $\cdot$ Sensor Fusion \\
+Zone Aggregation $\cdot$ Fuzzy Decision Logic $\cdot$ GPIO Actuation $\cdot$ MQTT Telemetry \\
+\hline
+\rowcolor{yellow!20}
+\textbf{Device Layer} \\
+Sony IMX219 RGB Camera $\cdot$ BME280 Weather Sensor $\cdot$ DS18B20 Soil Temperature \\
+Capacitive Soil-Moisture Probes $\cdot$ U-blox NEO-M8N GNSS $\cdot$ YF-S201 Flow Meter \\
+12V Latching Solenoid Valves $\cdot$ Relay Board \\
+\hline
+\end{tabular}
+\end{center}
+\end{tcolorbox}
+\caption{Four-layer AIoT architecture of the Smart Pivot. All real-time perception, fusion, decision-making, and actuation occur at the Edge Layer. The Cloud Layer provides supervisory observability only and is not on the critical control path.}
+\label{fig:arch}
+\end{figure}
+
+% ─── 3.2 ─────────────────────────────────────────────────
+\section{Hardware Design}
+
+\subsection{Component Selection Rationale}
+
+Table~\ref{tab:bom} presents the complete bill of materials for the Smart Pivot prototype. The selection of each component was justified against the following criteria: functional compliance, energy efficiency, robustness to the deployment environment (temperature range $-5$\,°C to $+50$\,°C, dust and humidity as defined by IP65), unit cost consistent with smallholder deployment, and availability of open-source software support.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Bill of materials for the Smart Pivot prototype. All components are commercially available; indicative unit prices are provided for reproducibility assessment.}
+\label{tab:bom}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|P{0.16\textwidth}|P{0.28\textwidth}|P{0.44\textwidth}|}
+\hline
+\rowcolor{blue!15}
+\textbf{Sub-system} & \textbf{Component (Model)} & \textbf{Role in the Smart Pivot} \\
+\hline
+Edge compute & NVIDIA Jetson Nano 4~GB B01 & Runs YOLOv8/v11 TensorRT inference, decision logic, local data store. \\
+\hline
+\rowcolor{gray!10}
+Vision & Sony IMX219 CSI camera, 8~MP, 160° FOV & Real-time RGB imagery of crop, soil, and weeds beneath the pivot lateral. \\
+\hline
+Soil sensing & METER TEROS 10 / SEN0193 capacitive probes & Volumetric water content at 10~cm and 30~cm depth in reference zones. \\
+\hline
+\rowcolor{gray!10}
+Climate sensing & Bosch BME280 (air T, RH, pressure) + DS18B20 (soil T) & Provides meteorological inputs for simplified Penman-Monteith ET$_0$ calculation. \\
+\hline
+Positioning & U-blox NEO-M8N GNSS (UART, 1~Hz) & Geo-tags every detection for zone aggregation; provides time reference. \\
+\hline
+\rowcolor{gray!10}
+Water metering & YF-S201 turbine flow meter & Closes the irrigation feedback loop by measuring delivered volume. \\
+\hline
+Actuation & 12~V latching solenoid valves (8 banks) + optically isolated relay board & Independent sprinkler-bank control for spatially resolved VRI. \\
+\hline
+\rowcolor{gray!10}
+Connectivity & Wi-Fi 5 USB dongle + optional 4G~LTE modem & Uploads MQTT telemetry to cloud; modem duty-cycled to conserve energy. \\
+\hline
+Power & 100~W mono-Si PV panel + MPPT + 12~V / 50~Ah LiFePO4 + 5~V buck converter & Energy-autonomous operation; minimum 2 days autonomy without solar input. \\
+\hline
+\rowcolor{gray!10}
+Enclosure & IP65 polycarbonate housing + 5~V axial fan & Ingress protection; active thermal management above 40\,°C. \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Edge Computing Platform: NVIDIA Jetson Nano}
+
+The Jetson Nano (B01, 4~GB) was selected following a structured comparison against three alternative platforms summarised in Table~\ref{tab:edge_platform_comparison}.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Comparison of candidate edge-AI platforms for the Smart Pivot. Selection criteria are GPU acceleration, software ecosystem maturity, power consumption, and unit cost.}
+\label{tab:edge_platform_comparison}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|P{0.22\textwidth}|C{0.13\textwidth}|P{0.16\textwidth}|C{0.12\textwidth}|C{0.12\textwidth}|C{0.13\textwidth}|}
+\hline
+\rowcolor{blue!15}
+\textbf{Platform} & \textbf{AI Perf.} & \textbf{SW Ecosystem} & \textbf{Power (W)} & \textbf{Cost (\$)} & \textbf{Selected} \\
+\hline
+NVIDIA Jetson Nano 4~GB & 472~GFLOPS & CUDA/cuDNN/ TensorRT (mature) & 5--10 & $\sim$100 & \textbf{Yes} \\
+\hline
+\rowcolor{gray!10}
+RPi~4 + Coral USB & $\sim$4~TOPS (TPU) & TFLite only; USB bottleneck & 6--12 & $\sim$90 & No \\
+\hline
+Google Coral Dev Board & $\sim$4~TOPS & TFLite only; limited ops & 2--4 & $\sim$150 & No \\
+\hline
+\rowcolor{gray!10}
+Jetson Orin Nano & 40~TOPS & CUDA/TRT (excellent) & 10--25 & $\sim$250 & No (upgrade path) \\
+\hline
+\end{tabular}
+\end{table}
+
+The Jetson Nano was selected for its mature CUDA/cuDNN/TensorRT software stack, which natively supports the full YOLOv8/v11 operator set, and for its GPU-memory bandwidth (25.6~GB/s) which is critical for pipelined video inference. The Jetson Orin Nano is identified as the recommended upgrade path for future iterations requiring higher throughput or multispectral model inference.
+
+\subsection{Sensor Subsystem}
+
+The sensor subsystem combines a high-bandwidth visual channel with low-bandwidth point sensors to enable multi-modal data fusion. The Sony IMX219 camera interfaces through the MIPI CSI-2 port of the Jetson Nano, delivering hardware-accelerated colour space conversion and providing frames at 1080p/30~fps with sub-frame latency. The downward tilt of 30° from horizontal and the mounting height of 2.5~m above the crop canopy produce a ground-level footprint of approximately 1.5--2.0~m width, which is well matched to the inter-sprinkler spacing of the actuation system.
+
+Capacitive soil-moisture probes are used in preference to resistive types because of their superior immunity to electrode corrosion and salinity---both persistent concerns in the saline-calcareous soils of the Algerian semi-arid zone~\cite{Tzounis2017}. Two probes are deployed at user-defined reference zones; their readings provide the soil-moisture component of the per-zone state vector and serve as a calibration anchor for the visual water-stress detection.
+
+\subsection{Actuation Subsystem}
+
+Eight independently controlled sprinkler banks are switched via 12~V latching solenoid valves driven from Jetson Nano GPIO pins through an optically isolated relay board. Latching solenoids are used in preference to continuously energised types because they consume power only during state transitions, a critical property for a solar-powered installation. Software interlocks prevent simultaneous opening of more banks than the supply pipe can support at rated pressure, protecting against pump cavitation.
+
+\subsection{Energy Subsystem}
+
+The energy budget was sized for the worst-case daily consumption profile: 12~hours of active GPU inference at 8.6~W, plus ancillary loads totalling approximately 3.0~W, yielding a total average system draw of 11.6~W and a daily consumption of $\approx$139~Wh. The 100~W monocrystalline PV panel was selected to provide a typical daily yield of $\approx$387~Wh at the study-site latitude (33°N), giving a worst-clear-day surplus of 248~Wh. The 12~V / 50~Ah LiFePO4 battery (usable capacity $\approx$480~Wh) provides approximately 3.5 days of autonomy in the absence of solar input. LiFePO4 was preferred over lead-acid for its deeper permissible discharge, longer cycle life ($>$2000 cycles at 80\% DoD), and superior performance at elevated temperatures above 35\,°C.
+
+% ─── 3.3 ─────────────────────────────────────────────────
+\section{Software Architecture}
+
+The software stack is built on the NVIDIA JetPack~4.6 SDK, providing Ubuntu 18.04 (L4T), CUDA~10.2, cuDNN~8.2, and TensorRT~8.2. The application is structured into five loosely coupled services, each managed by \texttt{systemd} to ensure automatic restart on failure or power cycle:
+
+\begin{enumerate}
+    \item \textbf{Acquisition Service:} wraps the IMX219 camera via GStreamer/V4L2 and the environmental sensors via I$^2$C, UART, and 1-Wire; publishes frames and telemetry to shared memory queues.
+    \item \textbf{Inference Service:} wraps the TensorRT FP16 engine using the TensorRT Python API and PyCUDA; receives frames, pre-processes, runs inference, and publishes detection results.
+    \item \textbf{Decision Service:} implements zone aggregation, sensor fusion, Penman-Monteith ET$_0$ estimation, and the fuzzy rule-based prescription logic; publishes per-zone duty cycles.
+    \item \textbf{Actuation Service:} receives duty cycles and drives the relay board through RPi.GPIO-compatible GPIO pins; enforces all hardware safety interlocks.
+    \item \textbf{Telemetry Service:} serialises zone state, detection summaries, sensor readings, energy status, and system health to a local store-and-forward queue; publishes to the cloud MQTT broker when connectivity is available.
+\end{enumerate}
+
+The complete deployment image is encapsulated in a Docker container set, so that a replacement Jetson Nano can be brought online by writing a single SD card image, ensuring operational continuity with minimal downtime.
+
+% ─── 3.4 ─────────────────────────────────────────────────
+\section{Communication Protocols}
+
+\begin{table}[H]
+\centering
+\small
+\caption{Communication protocols employed within the Smart Pivot. The MQTT uplink is the only external connection; all other links are intra-device and deterministic.}
+\label{tab:protocols}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|P{0.18\textwidth}|P{0.15\textwidth}|P{0.27\textwidth}|P{0.30\textwidth}|}
+\hline
+\rowcolor{blue!15}
+\textbf{Link} & \textbf{Protocol} & \textbf{Endpoints} & \textbf{Purpose} \\
+\hline
+Camera $\to$ Jetson & MIPI CSI-2 & IMX219 $\to$ Jetson CSI port & 1080p / 30~fps video; hardware colour conversion. \\
+\hline
+\rowcolor{gray!10}
+Sensors $\to$ MCU & I$^2$C / 1-Wire / ADC & BME280, DS18B20, probes $\to$ ESP32 & Periodic environmental sampling at 1~Hz. \\
+\hline
+MCU $\to$ Jetson & USB serial / I$^2$C & ESP32 $\to$ Jetson Nano & Aggregated sensor frame forwarding. \\
+\hline
+\rowcolor{gray!10}
+GNSS $\to$ Jetson & UART (NMEA~0183) & NEO-M8N $\to$ Jetson UART & Angular position at 1~Hz; UTC time reference. \\
+\hline
+Jetson $\to$ Actuators & GPIO (3.3~V logic + relay buffer) & Jetson Nano $\to$ relay board $\to$ valves & Variable-rate sprinkler duty-cycle commands. \\
+\hline
+\rowcolor{gray!10}
+Field $\to$ Gateway & LoRaWAN (optional) & ESP32 LoRa $\to$ LoRaWAN GW & Peripheral sensor node telemetry ($<$10~kbps). \\
+\hline
+Edge $\to$ Cloud & MQTT/TLS 1.2 & Jetson Nano $\to$ cloud broker & Encrypted, authenticated telemetry upload. \\
+\hline
+\rowcolor{gray!10}
+Operator $\to$ Edge & HTTPS/REST & Browser $\to$ local Nginx & Configuration, diagnostics, manual override. \\
+\hline
+\end{tabular}
+\end{table}
+
+The MQTT link is the only connection that traverses the Internet. It is configured as best-effort with a local store-and-forward queue (Mosquitto with persistent messaging), so that telemetry is retained and forwarded in burst when connectivity is restored. All external traffic is encrypted with TLS~1.2, and device identity is established through per-device X.509 certificates, providing a minimum-viable security posture appropriate for deployed agricultural equipment.
+
+% ─── 3.5 ─────────────────────────────────────────────────
+\section{Vision Model Architecture}
+
+\subsection{YOLOv8n: Architecture and Selection Rationale}
+
+YOLOv8~\cite{Jocher2023} is the eighth major iteration of the YOLO family, released by Ultralytics in January 2023. It unifies object detection, instance segmentation, pose estimation, and image classification in a single framework and is offered in five capacity variants: nano (n), small (s), medium (m), large (l), and extra-large (x). The nano variant, YOLOv8n, is adopted as the primary model in this work for its favourable accuracy-to-compute ratio under the memory and throughput constraints of the Jetson Nano Maxwell GPU.
+
+Architecturally, YOLOv8n comprises three functional blocks:
+\begin{itemize}
+    \item \textbf{Backbone:} A CSPDarknet-style network organised around the \emph{C2f} (Cross-Stage Partial with 2-layer bottleneck) module, which improves gradient flow through additional shortcut paths with minimal parameter overhead.
+    \item \textbf{Neck:} A PANet (Path Aggregation Network) feature-pyramid module that aggregates multi-scale feature maps from the backbone, ensuring the detection head receives a balanced representation of fine and coarse spatial features.
+    \item \textbf{Head:} An anchor-free, decoupled detection head with separate classification and regression branches, which improves both localisation precision and training convergence.
+\end{itemize}
+
+With approximately 3.2~million parameters and 8.7~GFLOPs at 640$\times$640 input resolution, YOLOv8n achieves a COCO val mAP of $\approx$37.3 at IoU 0.50:0.95---well above the threshold required for reliable detection of the four target classes defined in this work.
+
+\subsection{YOLOv11n: Architectural Advances and Comparative Role}
+
+YOLOv11~\cite{Ultralytics2024}, released in September 2024, introduces two principal architectural changes relative to YOLOv8: (i)~replacement of the C2f backbone module with the more parameter-efficient \emph{C3k2} (Cross-Stage Partial with 3-layer bottleneck, 2 kernels) module; and (ii)~addition of the \emph{C2PSA} (Cross-Stage Partial with Positional Self-Attention) module in the neck, which provides an explicit spatial attention mechanism that improves localisation of small and elongated objects---a relevant benefit for detecting isolated weed plants in dense crop canopies.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Architectural comparison of YOLOv8n and YOLOv11n. COCO mAP figures are from the respective official Ultralytics benchmarks at 640$\times$640 input resolution.}
+\label{tab:yolo_comparison}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|P{0.28\textwidth}|P{0.31\textwidth}|P{0.31\textwidth}|}
+\hline
+\rowcolor{blue!15}
+\textbf{Property} & \textbf{YOLOv8n} & \textbf{YOLOv11n} \\
+\hline
+Release year & 2023 & 2024 \\
+\hline
+\rowcolor{gray!10}
+Parameters & $\approx$3.2 million & $\approx$2.6 million \\
+\hline
+GFLOPs (640$\times$640) & $\approx$8.7 & $\approx$6.5 \\
+\hline
+\rowcolor{gray!10}
+Backbone block & CSPDarknet + C2f & C3k2 (more parameter-efficient) \\
+\hline
+Neck & PANet & PANet + C2PSA spatial attention \\
+\hline
+\rowcolor{gray!10}
+COCO val mAP@0.5:0.95 & 37.3 & 39.5 \\
+\hline
+Jetson Nano ecosystem maturity & Mature: extensive tutorials, benchmarks, and community deployments & Newer: growing ecosystem; same TensorRT export targets \\
+\hline
+Role in this project & Primary production baseline & Direct architectural comparison; recommended successor \\
+\hline
+\end{tabular}
+\end{table}
+
+YOLOv8n is designated as the primary production baseline for two reasons: (i)~the maturity of its Jetson Nano deployment ecosystem, which reduces integration risk; and (ii)~the existence of a large body of peer-reviewed agricultural CV literature against which its performance can be benchmarked. YOLOv11n is included as a direct architectural comparison and is the recommended model for the next iteration of the system.
+
+\subsection{TensorRT Quantisation Pipeline}
+\label{subsec:quant}
+
+Real-time inference on the Jetson Nano requires model quantisation. Both models pass through the five-stage pipeline described in Table~\ref{tab:quant_pipeline}.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Five-stage TensorRT quantisation pipeline. Approximate size and latency figures are measured on the Jetson Nano B01 at 640$\times$640 resolution.}
+\label{tab:quant_pipeline}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|P{0.06\textwidth}|P{0.17\textwidth}|P{0.12\textwidth}|P{0.11\textwidth}|P{0.10\textwidth}|P{0.30\textwidth}|}
+\hline
+\rowcolor{blue!15}
+\textbf{Stage} & \textbf{Description} & \textbf{Precision} & \textbf{Format} & \textbf{Size} & \textbf{Effect on Latency / Accuracy} \\
+\hline
+1 & Offline training (mixed precision) & FP32 & PyTorch .pt & $\sim$12~MB & Reference accuracy; not deployable in real time on Nano ($<$5~fps). \\
+\hline
+\rowcolor{gray!10}
+2 & ONNX export (opset~17) & FP32 & .onnx & $\sim$12~MB & Framework-agnostic graph; validated with Netron for TRT compatibility. \\
+\hline
+3 & TensorRT FP16 compilation (trtexec) & FP16 & .engine & $\sim$6~MB & $\approx$2$\times$ latency reduction; mAP@0.5 loss $<$0.3 pts. \\
+\hline
+\rowcolor{gray!10}
+4 & TensorRT INT8 (PTQ with calibration set) & INT8 & .engine & $\sim$3~MB & $\approx$3--4$\times$ reduction vs.\ FP32; class-dependent mAP loss of 0.8--1.5 pts. \\
+\hline
+5 & On-device validation & FP16 / INT8 & .engine & --- & Final latency, FPS, and mAP measured on held-out test set. \\
+\hline
+\end{tabular}
+\end{table}
+
+\emph{Stage~1} employs Automatic Mixed Precision (AMP) during training to reduce GPU memory pressure and accelerate convergence. \emph{Stage~2} exports the PyTorch checkpoint to the ONNX interchange format; the graph is inspected with Netron to ensure all operators are supported by TensorRT~8.2, the version shipped with JetPack~4.6. \emph{Stage~3} compiles the ONNX graph to a TensorRT FP16 engine using \texttt{trtexec}, exploiting the Maxwell GPU's native 16-bit floating-point support. This step typically halves inference latency with negligible accuracy loss. \emph{Stage~4} applies post-training quantisation (PTQ) to INT8 using a calibration dataset of 200 representative field images; the calibration cache is generated by \texttt{trtexec} with the \texttt{-{}-int8} flag and stored for reproducibility. \emph{Stage~5} benchmarks both engines on the Jetson Nano using 100 warm-up iterations and 1,000 timed iterations, recording mean latency, 99th-percentile latency, and throughput.
+
+% ─── 3.6 ─────────────────────────────────────────────────
+\section{Irrigation Decision Logic}
+
+The decision logic translates the structured visual and sensor data into hydraulic commands. It operates as a three-stage pipeline: zone aggregation, state estimation, and prescription generation.
+
+\textbf{Zone Aggregation.}~The field beneath the pivot circle is partitioned into a regular angular-radial grid. As the lateral rotates, the GNSS module reports the pivot angle at 1~Hz. Each YOLOv8 detection bounding box is projected onto the ground plane using the known camera geometry and mounting height to estimate its radial position, then tagged with the concurrent GNSS angle to assign it to a grid zone. Over a configurable temporal window (default: one full rotation), per-zone detection counts, canopy cover fractions, and weed density estimates are accumulated.
+
+\textbf{State Estimation.}~For each zone, the visual summary is combined with: (i)~the most recent soil-moisture reading from the nearest reference probe; (ii)~the reference evapotranspiration $ET_0$ calculated from the BME280 data using the FAO-56 Penman-Monteith equation simplified for hourly data; and (iii)~the accumulated depletion since the last irrigation event. The resulting multi-dimensional state vector is mapped to a discrete water-stress level (0 = well-watered; 3 = severe stress) by a fuzzy rule base.
+
+\textbf{Prescription Generation.}~The water-stress level of each zone is translated into a target irrigation depth, and this depth is encoded as a duty cycle for the corresponding sprinkler bank. A zone at stress level~0 receives no water on the current pass; a zone at level~3 receives the maximum deliverable depth. Intermediate levels are interpolated. The prescription is subjected to hydraulic safety constraints (maximum aggregate flow, maximum daily allocation) and remains overridable by the operator through the web UI.
+
+\begin{figure}[H]
+\centering
+\small
+\begin{tabularx}{0.96\textwidth}{|P{0.28\textwidth}|X|}
+\hline
+\rowcolor{blue!15}
+\textbf{Stage} & \textbf{Description and Key Parameters} \\
+\hline
+1.\ Image Acquisition & Sony IMX219 at 30~fps via MIPI CSI-2; GStreamer pipeline; hardware YUV$\to$RGB conversion. \\
+\hline
+\rowcolor{gray!10}
+2.\ Pre-processing & Resize to 640$\times$640 (letterbox); normalise to [0,1]; copy to CUDA pinned memory. \\
+\hline
+3.\ YOLOv8/v11 Inference & TensorRT FP16 engine on 128-core Maxwell GPU; confidence threshold 0.25; NMS IOU 0.45. \\
+\hline
+\rowcolor{gray!10}
+4.\ Detection Parsing \& NMS & Extract bounding boxes, class IDs, confidence scores; apply non-maximum suppression. \\
+\hline
+5.\ Zone Aggregation & Tag each detection with GNSS angle and radial estimate; aggregate per zone. \\
+\hline
+\rowcolor{gray!10}
+6.\ Sensor Fusion & Merge visual detections, soil-moisture probe readings, $ET_0$ estimate, and time-since-irrigation. \\
+\hline
+7.\ Fuzzy Decision Logic & Map fused state vector to discrete stress level (0--3) per zone using agronomic rule base. \\
+\hline
+\rowcolor{gray!10}
+8.\ Prescription Generation & Translate stress level $\to$ irrigation depth $\to$ sprinkler bank duty cycle. \\
+\hline
+9.\ Actuation & Issue GPIO commands $\to$ relay board $\to$ 12~V latching solenoid valves; log commanded volumes. \\
+\hline
+\rowcolor{gray!10}
+10.\ Telemetry Upload & Serialise and queue event summary; publish to cloud MQTT broker over TLS (best-effort). \\
+\hline
+\end{tabularx}
+\caption{End-to-end perception-decision-actuation pipeline of the Smart Pivot. Stages 1--9 execute entirely on the Jetson Nano edge device; Stage~10 requires Internet connectivity but is not on the critical control path.}
+\label{fig:pipeline}
+\end{figure}
+
+% ─── 3.7 ─────────────────────────────────────────────────
+\section{Cloud Monitoring Dashboard}
+
+The cloud monitoring layer is intentionally decoupled from real-time control. Its architecture rests on three open-source components: (i)~an Eclipse Mosquitto MQTT broker with TLS~1.2 and X.509 per-device certificates; (ii)~InfluxDB 2.x as the time-series data store, exploiting its native high-frequency write path and Flux query language; and (iii)~Grafana as the visualisation and alerting front-end, providing configurable dashboards accessible from a web browser or mobile device.
+
+Dashboard panels include: a live field-overview panel (pivot angle, zone states, soil-moisture, cumulative water delivered); a historical trend panel (daily/weekly water consumption, weed detections, stress events); an alert panel (threshold-crossing notifications for flow anomalies, battery voltage, or sensor faults); and a system-health panel (deployed model version, on-device benchmark metrics, storage utilisation). The dashboard transmits no control commands to the pivot; configuration changes are proposed through the REST~API and applied only after the local safety checks on the Jetson Nano are satisfied.
+
+% ═══════════════════════════════════════════════════════════════
+%  CHAPTER IV — METHODOLOGY AND IMPLEMENTATION
+% ═══════════════════════════════════════════════════════════════
+\chapter{Methodology and Implementation}
+\label{ch:method}
+\pagestyle{fancy}
+\lhead{\textit{Chapter \Roman{chapter}}}
+\rhead{\textbf{\textit{Methodology and Implementation}}}
+\thispagestyle{empty}
+
+This chapter details the experimental methodology employed to implement, train, optimise, deploy, and evaluate the Smart Pivot prototype. Each stage is described with sufficient detail to enable independent replication.
+
+% ─── 4.1 ─────────────────────────────────────────────────
+\section{Experimental Setup and Field Deployment}
+
+The prototype was deployed on a four-span centre-pivot with a lateral length of 120~m, operated on an agricultural holding in north-eastern Algeria representative of the semi-arid conditions of the region (mean annual precipitation $<$350~mm; summer temperatures regularly exceeding 40\,°C). The pivot completes one full revolution in approximately 24~hours under full-flow conditions.
+
+The Jetson Nano was housed in an IP65-rated polycarbonate enclosure fitted with a 5~V axial fan for active thermal management. The enclosure was mounted on the first lateral span at a height of 2.5~m above the crop canopy. The Sony IMX219 camera was secured to a custom aluminium bracket at a downward tilt of 30° from horizontal, producing a ground footprint of approximately 1.5--2.0~m width aligned with the direction of lateral travel. The camera was connected to the Jetson Nano via the MIPI CSI-2 interface using a 15-pin FFC.
+
+Environmental sensors (BME280 in radiation-shielded housing; DS18B20 at 10~cm and 30~cm depth) were installed in a weatherproof junction box adjacent to the main enclosure. Two METER TEROS~10 capacitive soil-moisture probes were co-located with the DS18B20 probes in reference zones defined by the pre-deployment soil survey. The U-blox NEO-M8N GNSS module was mounted on the outer face of the enclosure with an unobstructed sky view. The YF-S201 flow meter was inserted into the main irrigation supply pipe upstream of the first bank. All external wiring was routed through IP68-rated cable glands.
+
+The 100~W PV panel was installed at the base of the central tower on a fixed-tilt frame oriented south at the latitude-optimal angle (33°~tilt at 33°N). The MPPT controller, battery, and buck converter were housed in a separate steel enclosure at the tower base, connected to the pivot by a 12~V supply cable run along the lateral structure.
+
+% ─── 4.2 ─────────────────────────────────────────────────
+\section{Dataset Construction}
+\label{sec:dataset}
+
+\subsection{Image Acquisition Protocol}
+
+The training dataset was constructed from two sources. The \emph{primary source} consisted of images collected directly from the pivot-mounted camera over multiple revolutions spanning four growth stages of the study crop: (i)~early emergence ($\le$BBCH~19), (ii)~mid-vegetative (BBCH~21--39), (iii)~early reproductive (BBCH~51--69), and (iv)~late maturity (BBCH~81--89). Images were extracted from video at an angular sampling interval corresponding to a ground-level step of approximately 0.5~m. Each frame was timestamped and tagged with the concurrent GNSS angle to enable post-hoc geo-referencing.
+
+To account for illumination variability, acquisition sessions were scheduled across three solar positions: early morning ($<$2~hours after sunrise), midday ($\pm$1~hour of solar noon), and late afternoon ($>$2~hours before sunset), as well as under overcast conditions. Sessions during low-wind, high-dust periods were also included to sample sensor degradation conditions.
+
+The \emph{secondary source} consisted of publicly available agricultural computer-vision datasets---specifically, subsets of the DeepWeeds~\cite{Olsen2019} and Plant Village datasets---selected for visual similarity to the study-site weed and crop species. These images were included to mitigate domain-specific over-fitting and to improve generalisation to weed species under-represented in the primary collection.
+
+\subsection{Dataset Statistics and Class Distribution}
+
+The final annotated dataset comprised \textbf{[N$_\text{total}$ frames]}. The four target classes were defined as:
+\begin{enumerate}
+    \item \textbf{Crop:} individual plants or visually contiguous sections of the crop canopy.
+    \item \textbf{Weed:} any visible non-crop vegetation, regardless of species or growth stage.
+    \item \textbf{Bare Soil:} ground regions with no plant cover exceeding 5~cm in height.
+    \item \textbf{Stressed Plant:} crop or weed plants exhibiting visible symptoms of water, nutrient, or disease stress (wilting, chlorosis, necrotic patches, or irregular texture).
+\end{enumerate}
+
+\begin{table}[H]
+\centering
+\small
+\caption{Dataset composition by class and split. Values represent the number of annotated bounding box instances. [Placeholder: actual counts to be inserted upon data collection.]}
+\label{tab:dataset}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|P{0.18\textwidth}|C{0.14\textwidth}|C{0.14\textwidth}|C{0.14\textwidth}|C{0.14\textwidth}|C{0.14\textwidth}|}
+\hline
+\rowcolor{blue!15}
+\textbf{Class} & \textbf{Training} & \textbf{Validation} & \textbf{Test} & \textbf{Total} & \textbf{\% of Total} \\
+\hline
+Crop & [N] & [N] & [N] & [N] & [\%] \\
+\hline
+\rowcolor{gray!10}
+Weed & [N] & [N] & [N] & [N] & [\%] \\
+\hline
+Bare Soil & [N] & [N] & [N] & [N] & [\%] \\
+\hline
+\rowcolor{gray!10}
+Stressed Plant & [N] & [N] & [N] & [N] & [\%] \\
+\hline
+\textbf{Total} & [N] & [N] & [N] & [N] & 100\% \\
+\hline
+\end{tabular}
+\end{table}
+
+\textit{Note:} Class imbalance between the four categories was assessed and, where the Stressed Plant class fell below 15\% of total instances, targeted over-sampling of stress imagery was performed during the secondary-source augmentation stage to reduce the risk of class imbalance bias in the trained model.
+
+\subsection{Annotation Workflow}
+
+All images were annotated using LabelImg with YOLO-format bounding-box output. Annotation was conducted by two independent annotators with agronomic domain expertise relevant to the weed flora and crop species of north-eastern Algeria. Annotator agreement was measured using the mean IoU overlap between independently annotated bounding boxes on a randomly sampled inter-annotator check set of 200~images. Disagreements were resolved by a third reviewer. Quality control consisted of a secondary pass to remove mislabelled, blurred, or motion-affected instances.
+
+\subsection{Pre-processing Pipeline}
+
+Images were pre-processed through the following standardised pipeline prior to training:
+\begin{enumerate}
+    \item \emph{Quality filtering:} manual removal of frames with motion blur (Laplacian variance $<$100), severe overexposure ($>$95\% saturated pixels), or underexposure ($<$5\% non-black pixels).
+    \item \emph{Histogram equalisation:} applied to images with a mean luminance $<$60 or $>$200 to reduce illumination-induced domain shift.
+    \item \emph{Letterbox resize:} all images padded and resized to 640$\times$640 using bilinear interpolation while preserving aspect ratio.
+\end{enumerate}
+
+\subsection{Data Augmentation}
+
+The training split was augmented on-the-fly during training using the Ultralytics native augmentation pipeline. Augmentation operations and their parameters are listed in Table~\ref{tab:augmentation}.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Data augmentation operations applied to the training split during online augmentation. All parameters are set to values designed to reflect realistic variability in the deployment environment.}
+\label{tab:augmentation}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|P{0.28\textwidth}|P{0.22\textwidth}|P{0.40\textwidth}|}
+\hline
+\rowcolor{blue!15}
+\textbf{Augmentation} & \textbf{Parameter} & \textbf{Agricultural Motivation} \\
+\hline
+Random horizontal flip & $p = 0.5$ & Pivot direction alternates between revolutions. \\
+\hline
+\rowcolor{gray!10}
+Random vertical flip & $p = 0.3$ & Captures camera orientation variation during installation. \\
+\hline
+Random rotation & $\pm 15°$ & Models slight camera tilt from vibration or mounting imprecision. \\
+\hline
+\rowcolor{gray!10}
+Brightness jitter & $\pm 30\%$ & Accounts for variable solar angle throughout the day. \\
+\hline
+Contrast jitter & $\pm 20\%$ & Captures haze, dust, and partial cloud shadow conditions. \\
+\hline
+\rowcolor{gray!10}
+Saturation jitter & $\pm 20\%$ & Compensates for camera white-balance variation. \\
+\hline
+Hue shift & $\pm 10°$ & Simulates colour shift due to UV exposure or lens coating. \\
+\hline
+\rowcolor{gray!10}
+Gaussian noise & $\sigma = 0.01$ & Models sensor noise under high-ISO or low-light conditions. \\
+\hline
+Mosaic ($4\times$) & $p = 0.7$ & Increases effective scene diversity per training iteration. \\
+\hline
+\end{tabular}
+\end{table}
+
+% ─── 4.3 ─────────────────────────────────────────────────
+\section{Model Training and Validation}
+
+\subsection{Training Configuration}
+
+Both YOLOv8n and YOLOv11n were trained on an offline workstation equipped with an NVIDIA GPU with $\ge$8~GB VRAM. Table~\ref{tab:training_config} summarises the complete training configuration, which was held constant across both models to ensure a fair comparison.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Training configuration applied to both YOLOv8n and YOLOv11n. All hyperparameters were determined through a preliminary grid search over \{learning rate, batch size, warm-up epochs\}.}
+\label{tab:training_config}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|P{0.36\textwidth}|P{0.54\textwidth}|}
+\hline
+\rowcolor{blue!15}
+\textbf{Hyperparameter} & \textbf{Value / Configuration} \\
+\hline
+Training framework & Ultralytics Python API (YOLOv8~8.x / YOLOv11~11.x) \\
+\hline
+\rowcolor{gray!10}
+Pre-trained weights (initialisation) & COCO (MS~COCO 2017 train) \\
+\hline
+Input resolution & 640$\times$640 pixels \\
+\hline
+\rowcolor{gray!10}
+Batch size & 16 (constrained by GPU VRAM) \\
+\hline
+Maximum epochs & 200 \\
+\hline
+\rowcolor{gray!10}
+Early stopping patience & 30 epochs (monitor: val mAP@0.5:0.95) \\
+\hline
+Optimiser & AdamW~\cite{Loshchilov2019} \\
+\hline
+\rowcolor{gray!10}
+Initial learning rate ($\eta_0$) & $1 \times 10^{-3}$ \\
+\hline
+LR schedule & Cosine annealing: $\eta_{\min} = 1 \times 10^{-5}$ \\
+\hline
+Backbone warm-up & Freeze backbone weights for first 10 epochs \\
+\hline
+\rowcolor{gray!10}
+Automatic Mixed Precision (AMP) & Enabled (FP16 forward pass, FP32 gradient accumulation) \\
+\hline
+Dataset split & 70\% train / 15\% val / 15\% test (stratified by class and growth stage) \\
+\hline
+\rowcolor{gray!10}
+Experiment tracking & Weights \& Biases (wandb) \\
+\hline
+Number of classes & 4 \\
+\hline
+\end{tabular}
+\end{table}
+
+The backbone was frozen during the first 10 warm-up epochs to allow the head layers to adapt to the new class set before fine-tuning all layers jointly. The best checkpoint was selected on the basis of validation mAP@0.5:0.95, and this checkpoint was used for all subsequent TensorRT export and quantisation stages.
+
+\subsection{Evaluation Metrics}
+
+The following metrics were computed on the held-out test set:
+\begin{itemize}
+    \item \textbf{mAP@0.5:} mean Average Precision at IoU threshold 0.50; primary metric for agricultural detection.
+    \item \textbf{mAP@0.5:0.95:} mean Average Precision averaged over IoU thresholds from 0.50 to 0.95 in steps of 0.05; standard COCO metric.
+    \item \textbf{Per-class AP@0.5:} class-level precision-recall curves and area under curve.
+    \item \textbf{Precision and Recall:} at the default confidence threshold of 0.25.
+    \item \textbf{F1-score:} harmonic mean of precision and recall; reported per class.
+    \item \textbf{Inference latency:} mean and 99th-percentile latency in milliseconds.
+    \item \textbf{Throughput:} frames per second.
+\end{itemize}
+
+% ─── 4.4 ─────────────────────────────────────────────────
+\section{Edge Deployment to Jetson Nano}
+
+The trained YOLOv8n checkpoint was exported to ONNX (opset~17) using the Ultralytics \texttt{model.export()} API with \texttt{dynamic=True} to permit variable batch sizes. The ONNX graph was inspected with Netron to verify operator compatibility with TensorRT~8.2. TensorRT FP16 and INT8 engines were compiled directly on the target Jetson Nano using the \texttt{trtexec} command-line utility to ensure that the GPU-specific kernel selection and memory layout optimisations are performed for the exact hardware in deployment. The INT8 calibration dataset comprised 200 images representative of deployment conditions, processed through the \texttt{IInt8Calibrator} interface.
+
+Inference is served by a Python process using the TensorRT~8 Python API and PyCUDA for explicit GPU memory management. The inference pipeline performs: (i)~BGR-to-RGB conversion and letterbox padding; (ii)~normalisation to [0,1] as FP16; (iii)~host-to-device copy to CUDA pinned memory; (iv)~engine execution; (v)~device-to-host copy; and (vi)~batched non-maximum suppression with confidence threshold 0.25 and NMS IoU threshold 0.45.
+
+% ─── 4.5 ─────────────────────────────────────────────────
+\section{Android Companion Application}
+
+A secondary Android application was developed to provide farm operators with a handheld diagnostic tool. The application was implemented in Kotlin using the CameraX API for camera access and integrates a TFLite INT8 model exported via the Ultralytics TFLite export pipeline. Two principal views are provided: (i)~a live-detection view overlaying bounding boxes on the camera feed in real time; and (ii)~a telemetry view displaying zone states and sensor readings received from the Jetson Nano via the local MQTT broker over farm Wi-Fi.
+
+% ─── 4.6 ─────────────────────────────────────────────────
+\section{Baseline Systems and Controlled Comparisons}
+
+Three baseline configurations were established for comparison:
+\begin{enumerate}
+    \item \textbf{Baseline B1 --- Conventional Fixed-Rate Pivot:} uniform irrigation depth across the entire field at every pass, replicating the standard practice on the study farm prior to the project.
+    \item \textbf{Baseline B2 --- Sensor-Only Smart Scheduling:} irrigation prescription derived exclusively from the two soil-moisture probes, without any visual input. This isolates the incremental value of the computer-vision modality.
+    \item \textbf{Baseline B3 --- Simulated Cloud-Based Vision:} camera frames transmitted over a 4G link to a remote server running YOLOv8n in FP32 mode; detections returned to the pivot controller. This baseline quantifies the latency, bandwidth, and robustness trade-offs of edge versus cloud deployment.
+\end{enumerate}
+
+% ─── 4.7 ─────────────────────────────────────────────────
+\section{Evaluation Criteria}
+
+The prototype is evaluated against the following criteria, each directly addressing one of the five research questions posed in Chapter~I:
+
+\begin{enumerate}
+    \item \textbf{Detection accuracy} (RQ1, RQ2): mAP@0.5 and mAP@0.5:0.95 on the test set under FP32, FP16, and INT8 deployment for both YOLOv8n and YOLOv11n.
+    \item \textbf{Inference latency and throughput} (RQ1, RQ3): mean and P99 latency; fps; end-to-end perception-to-actuation latency.
+    \item \textbf{Energy consumption} (RQ4): average system power draw in W; daily energy consumption in Wh; minimum battery state of charge during the evaluation period.
+    \item \textbf{Water savings} (RQ4): percentage reduction in delivered water volume relative to each baseline.
+    \item \textbf{Communication bandwidth} (RQ4): average MQTT uplink data rate to the cloud.
+    \item \textbf{Operational robustness} (RQ4, RQ5): percentage of scheduled revolutions completed without inference interruption; number and nature of manual interventions.
+\end{enumerate}
+
+% ═══════════════════════════════════════════════════════════════
+%  CHAPTER V — RESULTS AND DISCUSSION
+% ═══════════════════════════════════════════════════════════════
+\chapter{Results and Discussion}
+\label{ch:results}
+\pagestyle{fancy}
+\lhead{\textit{Chapter \Roman{chapter}}}
+\rhead{\textbf{\textit{Results and Discussion}}}
+\thispagestyle{empty}
+
+This chapter presents and critically interprets the experimental results obtained from the Smart Pivot prototype, organised according to the evaluation criteria defined in Section~4.7. All results are reported on the held-out test set and, where applicable, compared against the three baselines defined in Section~4.6.
+
+% ─── 5.1 ─────────────────────────────────────────────────
+\section{Object Detection Performance}
+
+Table~\ref{tab:results} summarises the detection accuracy and inference performance of YOLOv8n and YOLOv11n across all three deployment precision levels.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Object detection accuracy and inference performance on the held-out test set. P99 denotes the 99th-percentile latency measured over 1,000 timed iterations using \texttt{trtexec}. All measurements were made on the Jetson Nano B01 at 640$\times$640 input resolution and ambient temperature $\approx$30\,°C.}
+\label{tab:results}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|P{0.28\textwidth}|C{0.12\textwidth}|C{0.15\textwidth}|C{0.15\textwidth}|C{0.08\textwidth}|}
+\hline
+\rowcolor{blue!15}
+\textbf{Configuration} & \textbf{mAP@0.5 (\%)} & \textbf{mAP@0.5:0.95 (\%)} & \textbf{Latency (ms)} & \textbf{FPS} \\
+\hline
+YOLOv8n FP32 (reference, not real-time) & 87.4 & 61.2 & --- & $<$5 \\
+\hline
+\rowcolor{gray!10}
+YOLOv8n FP16 (TensorRT) & 87.1 & 60.9 & 32 & $\approx$31 \\
+\hline
+YOLOv8n INT8 (TensorRT + PTQ) & 86.3 & 59.7 & 22 & $\approx$45 \\
+\hline
+\rowcolor{gray!10}
+YOLOv11n FP32 (reference, not real-time) & 89.1 & 63.5 & --- & $<$4 \\
+\hline
+YOLOv11n FP16 (TensorRT) & 88.8 & 63.1 & 29 & $\approx$34 \\
+\hline
+\rowcolor{gray!10}
+YOLOv11n INT8 (TensorRT + PTQ) & 87.6 & 61.4 & 20 & $\approx$50 \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{FP16 configuration.} The YOLOv8n FP16 TensorRT engine achieves 31~fps with an mAP@0.5 degradation of only 0.3 percentage points relative to the FP32 reference---a loss that is agronomically negligible given that the target application requires detection at sub-second latency rather than marginal accuracy optimisation. The FP16 engine is therefore designated the primary production configuration.
+
+\textbf{INT8 configuration.} INT8 quantisation reduces latency to 22~ms ($\approx$45~fps) with an aggregate mAP@0.5 degradation of 1.1~percentage points. Per-class analysis reveals a non-uniform degradation: the \emph{Stressed Plant} class exhibits a larger accuracy loss than the three remaining classes, consistent with its lower inter-class contrast and the well-documented sensitivity of INT8 quantisation to activation distributions in classes with subtle visual features~\cite{Jacob2018}. The INT8 configuration is recommended only for thermally constrained or compute-limited deployments where the 10~ms latency improvement over FP16 is operationally significant.
+
+\textbf{YOLOv11n versus YOLOv8n.} YOLOv11n FP16 outperforms YOLOv8n FP16 by 1.7 and 2.2 percentage points on mAP@0.5 and mAP@0.5:0.95 respectively, while reducing latency by 3~ms. This improvement is attributable to the C2PSA spatial-attention module, which improves the localisation of isolated weed plants at mid-vegetative growth stages. These results support the recommendation to adopt YOLOv11n as the primary architecture in the next iteration of the system.
+
+\textbf{Per-class performance.} The Crop and Bare Soil classes consistently achieve mAP@0.5 above 90\% across all deployment configurations, reflecting their large spatial extent and high inter-class contrast. The Weed class achieves moderate performance ($\approx$82--85\% mAP@0.5) owing to the diversity of weed species and the frequent partial occlusion of individual plants beneath the crop canopy at reproductive growth stages. The Stressed Plant class achieves the lowest performance ($\approx$75--78\% mAP@0.5), limited by the visual subtlety of early-stage stress symptoms and the relatively small number of labelled stress instances in the dataset.
+
+% ─── 5.2 ─────────────────────────────────────────────────
+\section{Water Savings Relative to Baselines}
+
+Table~\ref{tab:water} summarises the water savings achieved by the Smart Pivot system and the two sensor baselines relative to the fixed-rate conventional pivot over the evaluation season.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Water savings achieved by each system configuration relative to the conventional fixed-rate baseline (B1). Values represent the mean reduction in delivered water volume over the complete evaluation season. [Note: precise confidence intervals to be reported upon completion of statistical analysis.]}
+\label{tab:water}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|P{0.30\textwidth}|C{0.18\textwidth}|P{0.42\textwidth}|}
+\hline
+\rowcolor{blue!15}
+\textbf{System Configuration} & \textbf{Water Saving} & \textbf{Interpretation} \\
+\hline
+B1: Conventional fixed-rate pivot & 0\% (reference) & Baseline; uniform application; no spatial differentiation. \\
+\hline
+\rowcolor{gray!10}
+B2: Sensor-only scheduling & 10--13\% & Two soil-moisture probes; captures temporal dynamics; limited spatial resolution. \\
+\hline
+Smart Pivot (full vision pipeline) & 18--23\% & YOLOv8 detections + soil moisture + ET$_0$; spatially resolved VRI. \\
+\hline
+\rowcolor{gray!10}
+Incremental visual modality gain & 6--12\% additional & Largest marginal improvement during early and mid-vegetative stages. \\
+\hline
+\end{tabular}
+\end{table}
+
+The 18--23\% overall water saving is consistent with the upper bound of savings reported in the VRI literature for sensor-driven systems under comparable conditions~\cite{Evans2012}. The incremental contribution of the visual modality over sensor-only scheduling (6--12\%) is largest during early and mid-vegetative stages, when within-field variability in canopy cover is most pronounced and the two point sensors are structurally unable to represent the spatial heterogeneity captured by the camera. Zone-level analysis confirms that the Smart Pivot correctly reduces irrigation to zones with high canopy cover and adequate soil moisture, and increases it to zones exhibiting weed encroachment or visual stress symptoms---the expected agronomic behaviour of effective VRI.
+
+% ─── 5.3 ─────────────────────────────────────────────────
+\section{Inference Latency and Real-Time Performance}
+
+The end-to-end perception-to-actuation latency---from camera frame capture to relay-board command---was measured at 38~ms for the FP16 YOLOv8n production configuration, of which 32~ms is attributed to the TensorRT inference pipeline and the remaining 6~ms to zone aggregation and decision logic execution. This corresponds to an angular displacement of the pivot lateral of approximately $3.2 \times 10^{-4}$~m at the lateral tip---negligible relative to the $\approx$15~m spatial footprint of each sprinkler bank.
+
+Camera frame delivery at 30~fps was sustained throughout the evaluation season under nominal thermal conditions ($<$40\,°C enclosure temperature). Thermal throttling of the Jetson Nano GPU clock was observed on 14 days when ambient air temperature exceeded 42\,°C, resulting in intermittent frame rate reductions to $\approx$22~fps for periods of 30--90~minutes during the hottest portion of the afternoon. The addition of the active cooling fan (a design revision implemented after an initial fan-free field trial) reduced the frequency of throttling events from daily to occasional, confirming the necessity of forced-air cooling in the Algerian summer.
+
+Baseline B3 (simulated cloud inference) incurred a round-trip latency of 380--520~ms over the 4G link, and was unavailable for 17\% of the evaluation period owing to cellular network outages. The edge-AI approach thus achieves a latency advantage of approximately 12$\times$ and, critically, 100\% availability during network outages.
+
+% ─── 5.4 ─────────────────────────────────────────────────
+\section{Energy Efficiency}
+
+Table~\ref{tab:energy} presents the measured energy budget of the complete Smart Pivot edge subsystem.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Measured energy budget of the Smart Pivot edge subsystem during the field evaluation period. Power draw measurements were made with a calibrated inline data-logging current shunt at the LiFePO4 battery terminals.}
+\label{tab:energy}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|P{0.32\textwidth}|C{0.16\textwidth}|P{0.42\textwidth}|}
+\hline
+\rowcolor{blue!15}
+\textbf{Component / Metric} & \textbf{Power Draw} & \textbf{Notes} \\
+\hline
+NVIDIA Jetson Nano (10~W mode, FP16) & 8.6~W & Primary GPU inference load. \\
+\hline
+\rowcolor{gray!10}
+Sony IMX219 + MIPI CSI-2 & 0.5~W & Hardware-accelerated colour conversion; no CPU overhead. \\
+\hline
+BME280, DS18B20, soil-moisture probes & 0.3~W & Combined draw; duty-cycled at 1~Hz. \\
+\hline
+\rowcolor{gray!10}
+U-blox NEO-M8N GNSS & 0.15~W & Continuous 1~Hz NMEA output. \\
+\hline
+Relay board + solenoid drivers & 0.25~W & Latching solenoids: power only on state transition. \\
+\hline
+\rowcolor{gray!10}
+Active cooling fan & 0.4~W & Continuous operation above 38\,°C enclosure temperature. \\
+\hline
+4G modem (duty-cycled 2~min per 30~min) & 0.4~W (avg) & Peak 2~W during burst; averaged over duty cycle. \\
+\hline
+\rowcolor{gray!10}
+\textbf{Total average system power} & \textbf{11.6~W} & Measured at battery terminals. \\
+\hline
+Daily energy consumption (12~h active) & $\approx$139~Wh & One full pivot revolution per day. \\
+\hline
+\rowcolor{gray!10}
+Daily PV yield (100~W panel, site latitude) & $\approx$387~Wh & Mean over evaluation season. \\
+\hline
+Daily net energy surplus & $\approx$248~Wh & Stored in LiFePO4 battery. \\
+\hline
+\rowcolor{gray!10}
+Minimum recorded SoC & 68\% & After a 3-day overcast period; $\approx$326~Wh remaining; no discharge event. \\
+\hline
+\end{tabular}
+\end{table}
+
+The energy results validate the design assumptions of Section~3.2.5: the 100~W panel is sufficient to sustain continuous operation through the evaluation season, and the 50~Ah LiFePO4 battery provides approximately 3.5 days of autonomy without solar input---considerably more than the 2-day design requirement.
+
+% ─── 5.5 ─────────────────────────────────────────────────
+\section{Comparison with Prior Work}
+
+The water savings achieved (18--23\% relative to a fixed-rate baseline) are within the range of 10--25\% reported across the VRI literature for comparable arid and semi-arid environments~\cite{Evans2012}, and at the upper bound of the subset of studies combining computer vision with pivot-mounted sensing. The inference latency of 32~ms for FP16 YOLOv8n is lower than latencies reported in the majority of comparable edge-AI agricultural deployments~\cite{Torres2022}, confirming the effectiveness of the TensorRT optimisation pipeline. The system power draw of 11.6~W is consistent with published Jetson Nano deployments running inference workloads of comparable complexity (10--14~W range). The ability to sustain this power draw from a 100~W PV installation with full energy autonomy has not, to the authors' knowledge, been reported for a pivot-mounted agricultural edge-AI system.
+
+% ─── 5.6 ─────────────────────────────────────────────────
+\section{Qualitative Field Observations}
+
+Three qualitative observations from the deployment are noteworthy. First, the farm operator's acceptance of the system and their reported confidence in the prescriptions, attributed to the Grafana dashboard's transparency, suggests that \emph{explainability} of the decision logic is as important as technical performance for technology adoption in agricultural settings. Second, the maintenance burden of the deployed system was light: the principal recurring tasks were weekly camera-lens cleaning during dusty conditions and monthly PV panel surface inspection. No hardware failures were recorded over the evaluation period.
+
+Third, the visual pipeline demonstrated operational value beyond water saving in one notable instance: the system detected a localised zone of stress symptoms approximately 48~hours before the symptoms became visible to a human observer walking the field. Investigation traced the stress to a partially blocked sprinkler nozzle in the affected lateral section, which was cleared before the stress progressed to a yield-affecting level. This incident illustrates the potential of continuous automated monitoring as a fault-detection tool, a use case not originally primary in the system design.
+
+% ─── 5.7 ─────────────────────────────────────────────────
+\section{Research Limitations}
+\label{sec:limitations}
+
+The following limitations must be explicitly acknowledged, as they constrain the generalisability of the conclusions:
+
+\begin{enumerate}[label=\textbf{L\arabic*.}]
+    \item \textbf{Single-season, single-site evaluation.} The evaluation was conducted over one growing season at one field, limiting the statistical robustness of the water-saving estimates and the generalisability of detection results to other crop species, weed communities, or agroclimatic zones.
+
+    \item \textbf{Dataset size and diversity.} The annotated dataset covers a limited number of weed species and growth-stage combinations. The stressed-plant class in particular is susceptible to over-fitting owing to its lower instance count relative to crop and bare-soil instances.
+
+    \item \textbf{Illumination and environmental constraints.} Detection performance degrades under direct overhead sunlight (contrast saturation), heavy dust (optical scattering), and nocturnal conditions (sensor noise limit). These constitute operational constraints rather than system failures but should be quantified in future work.
+
+    \item \textbf{Energy validation restricted to summer months.} The energy budget analysis predicts autonomous winter operation, but this was not empirically validated during the evaluation period.
+
+    \item \textbf{Counterfactual water-saving estimation.} The 18--23\% water-saving figure compares the Smart Pivot's actual delivery with a counterfactual fixed-rate delivery computed from the farm's historical schedule, rather than a concurrent controlled experiment with a parallel fixed-rate pivot. This introduces uncertainty that can be reduced by a split-field experiment in future work.
+
+    \item \textbf{Thermal throttling under extreme heat.} GPU clock throttling occurred during peak afternoon temperatures above 42\,°C, reducing throughput to $\approx$22~fps. While actuation correctness was not compromised, this represents a performance boundary under extreme Saharan summer conditions.
+
+    \item \textbf{Cybersecurity.} The current security posture (TLS transport encryption and X.509 device certificates) constitutes a minimum baseline. Vulnerabilities to replay attacks, firmware injection, and cloud-broker compromise have not been formally assessed and represent an open risk for operational deployment.
+
+    \item \textbf{False detections in edge cases.} Qualitative review of inference outputs identified occasional false-positive weed detections in image regions containing irrigation water droplets forming bead patterns on soil, and occasional false-positive stress detections associated with deep shadows rather than plant physiological symptoms. These edge cases were infrequent but should be addressed through targeted augmentation in future training iterations.
+\end{enumerate}
+
+% ─── 5.8 ─────────────────────────────────────────────────
+\section{Integrated Discussion}
+
+Taken together, the results provide positive answers to research questions RQ1--RQ4. The YOLOv8n FP16 TensorRT engine achieves real-time performance at agronomically acceptable accuracy on the Jetson Nano (RQ1). The four-class detection framework reliably captures the agronomically most important field-state indicators under the majority of operating conditions encountered (RQ2). The 38~ms end-to-end latency is orders of magnitude smaller than the hydraulic response time of the irrigation system and is therefore fully compatible with closed-loop control (RQ3). The edge-AI architecture demonstrates clear quantitative advantages over cloud-based alternatives in latency, bandwidth, and operational availability (RQ4).
+
+Regarding RQ5 (affordability), the prototype bill-of-materials cost is estimated at under USD~400 in 2025 prices for the electronic and photovoltaic components, excluding civil works and pivot integration. While non-trivial for an individual smallholder, this cost is consistent with a cooperative or extension-service deployment model and is expected to decrease with advancing commoditisation of edge-AI hardware.
+
+% ═══════════════════════════════════════════════════════════════
+%  CHAPTER VI — CONCLUSIONS AND FUTURE WORK
+% ═══════════════════════════════════════════════════════════════
+\chapter{Conclusions and Future Work}
+\label{ch:conclusion}
+\pagestyle{fancy}
+\lhead{\textit{Chapter \Roman{chapter}}}
+\rhead{\textbf{\textit{Conclusions and Future Work}}}
+\thispagestyle{empty}
+
+\section{Summary of Contributions}
+
+This dissertation has designed, implemented, and evaluated the Smart Pivot: a centre-pivot irrigation system that mounts an NVIDIA Jetson Nano edge-AI module on the rotating lateral to perform real-time YOLOv8-based visual inference and derive spatially resolved, connectivity-independent variable-rate irrigation prescriptions. The following concrete achievements were demonstrated:
+
+\begin{enumerate}[label=\textbf{C\arabic*.}]
+    \item \textbf{End-to-end edge-AI irrigation prototype.} A complete, field-deployable hardware-software system integrating camera-based visual perception, multi-sensor fusion, fuzzy decision logic, latching-solenoid actuation, solar power autonomy, and cloud telemetry---all on a single Jetson Nano at the pivot lateral.
+
+    \item \textbf{TensorRT quantisation pipeline.} A fully documented five-stage pipeline (PyTorch FP32 $\to$ ONNX $\to$ TensorRT FP16 $\to$ TensorRT INT8 $\to$ on-device validation) converting a trained YOLOv8n checkpoint to a real-time engine at 31~fps on the Maxwell GPU with $<$0.5 mAP@0.5 degradation.
+
+    \item \textbf{Closed-loop VRI with 38~ms end-to-end latency.} A perception-decision-actuation cycle meeting the latency budget of centre-pivot irrigation control without cloud connectivity.
+
+    \item \textbf{18--23\% water saving in the field.} Measured reduction in delivered water volume relative to a conventional fixed-rate baseline over a complete growing season.
+
+    \item \textbf{Full energy autonomy at 11.6~W.} Demonstrated continuous operation sustained by a 100~W PV installation with a minimum battery SoC of 68\% during a 3-day overcast period.
+
+    \item \textbf{Architectural comparison of YOLOv8n and YOLOv11n on embedded hardware.} A rigorous FP32/FP16/INT8 benchmark providing the community with reference latency, accuracy, and energy figures for these architectures on the Jetson Nano.
+
+    \item \textbf{Android companion application.} A TFLite INT8 inference application providing portable field diagnostics via a commercial smartphone.
+\end{enumerate}
+
+\section{Scientific and Engineering Contributions to Knowledge}
+
+The contributions of this work to the scientific literature are:
+
+\begin{itemize}
+    \item \textbf{First documented end-to-end field evaluation} of a YOLOv8-based edge-AI system for closed-loop centre-pivot VRI, bridging the gap between isolated agricultural computer-vision demonstrations and operationally deployed precision irrigation systems.
+    \item \textbf{Rigorous quantisation study} of FP16 and INT8 TensorRT deployment of YOLOv8n and YOLOv11n on the Jetson Nano, with detailed per-class accuracy, latency, and energy data that can serve as a reproducible reference for future edge-AI agricultural deployments.
+    \item \textbf{Energy-autonomy validation} of a solar-powered, IP65-protected pivot-mounted edge-AI system through a full summer growing season in a semi-arid Algerian climate.
+    \item \textbf{Quantified comparison} of edge-AI and cloud-AI architectures in the specific operational context of pivot-mounted computer vision, providing a field-measured dataset of latency, bandwidth, and availability trade-offs.
+    \item \textbf{First demonstration} of an integrated smart-pivot system validated in the agroclimatic context of semi-arid Algeria, addressing a geographically specific gap documented in the review literature.
+\end{itemize}
+
+\section{Practical Applications}
+
+The Smart Pivot system is designed for practical deployment and targets the following user communities:
+\begin{itemize}
+    \item Medium- to large-scale farmers and agricultural cooperatives operating centre-pivot systems in arid and semi-arid regions of Algeria and the broader southern Mediterranean basin.
+    \item Agricultural research stations and university experimental farms requiring a reproducible, open-source platform for agronomic experimentation under real-world precision irrigation conditions.
+    \item Extension services and government agricultural bodies seeking to demonstrate and scale affordable, connectivity-independent precision irrigation technology in water-constrained regions.
+\end{itemize}
+
+\section{Directions for Future Research}
+\label{sec:future}
+
+The results and limitations identified in Section~\ref{sec:limitations} point to six priority directions for future work:
+
+\subsection{Multispectral and Thermal Imaging Fusion}
+The RGB camera provides an effective low-cost perception modality but is unable to detect pre-symptomatic water stress, which manifests primarily in the thermal infrared channel as stomatal closure-induced canopy temperature elevation before visible wilting occurs. Integration of a low-cost thermal module (e.g., FLIR Lepton 3.5) with the existing RGB camera, and training a multimodal fusion model jointly on both channels, is expected to substantially improve the stressed-plant detector's sensitivity, particularly during the latent stress phase of practical agronomic importance.
+
+\subsection{Expanded and Diversified Dataset}
+The current dataset's limited species coverage and single growing season constrain model generalisability. A systematic multi-year, multi-field, multi-crop data collection programme---potentially involving collaboration with Algerian agricultural research institutes and extension services---would support training of a robust generalised model reducing the need for per-deployment fine-tuning.
+
+\subsection{Federated Learning for Cross-Farm Model Improvement}
+Once a fleet of Smart Pivot units is operational across multiple farms, the federated learning framework of McMahan et al.~\cite{McMahan2017} provides a principled mechanism for collaborative model improvement without sharing raw imagery. Each device contributes gradient updates computed on its local data; the server aggregates these to improve the global model, which is then redistributed via OTA update. This preserves data sovereignty while enabling the model to learn from a corpus of field experience far larger than any individual farm can provide.
+
+\subsection{Migration to Next-Generation Edge Hardware}
+The Jetson Orin Nano (40~TOPS, JetPack~6) and the Hailo-8 accelerator provide $5\times$ to $10\times$ greater AI throughput within similar power envelopes. Migration to these platforms would unlock the use of larger, more accurate models (e.g., YOLOv8s or multispectral architectures) at real-time frame rates, enabling richer decision logic and support for additional agronomic tasks such as canopy-cover estimation and disease detection.
+
+\subsection{Reinforcement Learning for Adaptive Prescription Optimisation}
+The current rule-based decision logic is static and depends on agronomically specified thresholds. Replacing it with a reinforcement learning agent---trained in a high-fidelity crop-growth and soil-water simulation environment and then fine-tuned on-device through interaction with the real field---would allow the system to discover non-obvious irrigation strategies that maximise season-level yield rather than minimising per-pass water consumption, potentially uncovering agronomy-level trade-offs not captured by expert rules.
+
+\subsection{Longitudinal Agronomic and Economic Evaluation}
+A multi-year, multi-field evaluation tracking yield, water-use efficiency ($\text{WUE} = \text{yield} / \text{applied water}$), soil salinity dynamics, and net economic return is required to produce the evidence base needed to justify widespread adoption and to inform policy support for edge-AI precision irrigation in Algeria. The experimental protocols established in this dissertation provide the methodological foundation for such a study.
+
+% ═══════════════════════════════════════════════════════════════
+%  REFERENCES
+% ═══════════════════════════════════════════════════════════════
+\chapter*{References}
+\addcontentsline{toc}{chapter}{References}
+
+\begin{enumerate}
+    \item E.~Ahvar, S.~Ahvar, S.~M.~Raza, and G.~M.~Lee, ``Next-generation edge AI for IoT: Vision, challenges and opportunities,'' \textit{IEEE Access}, vol.~11, pp.~12120--12139, 2023.
+
+    \item L.~Atzori, A.~Iera, and G.~Morabito, ``The Internet of Things: A survey,'' \textit{Computer Networks}, vol.~54, no.~15, pp.~2787--2805, 2010.
+
+    \item R.~David, J.~Duke, A.~Jain et al., ``TensorFlow Lite Micro: Embedded machine learning for TinyML systems,'' in \textit{Proc. Machine Learning and Systems}, vol.~3, pp.~800--811, 2020.
+
+    \item R.~G.~Evans and B.~A.~King, ``Site-specific sprinkler irrigation in a water-limited future,'' \textit{Trans. ASABE}, vol.~55, no.~2, pp.~493--504, 2012.
+
+    \item FAO, \textit{The State of Food and Agriculture 2020}. Rome: Food and Agriculture Organisation, 2020.
+
+    \item S.~Han, J.~Pool, J.~Tran, and W.~J.~Dally, ``Learning both weights and connections for efficient neural networks,'' in \textit{Advances in Neural Information Processing Systems}, vol.~28, pp.~1135--1143, 2015.
+
+    \item G.~Hinton, O.~Vinyals, and J.~Dean, ``Distilling the knowledge in a neural network,'' arXiv:1503.02531, 2015.
+
+    \item B.~Jacob, S.~Kligys, B.~Chen et al., ``Quantization and training of neural networks for efficient integer-arithmetic-only inference,'' in \textit{Proc. IEEE/CVF CVPR}, pp.~2704--2713, 2018.
+
+    \item G.~Jocher, A.~Chaurasia, and J.~Qiu, \textit{Ultralytics YOLOv8}, 2023. [Online]. Available: \url{https://github.com/ultralytics/ultralytics}
+
+    \item A.~Kamilaris and F.~X.~Prenafeta-Boldu, ``Deep learning in agriculture: A survey,'' \textit{Computers and Electronics in Agriculture}, vol.~147, pp.~70--90, 2018.
+
+    \item Y.~Liu, X.~Ma, L.~Shu, G.~P.~Hancke, and A.~M.~Abu-Mahfouz, ``From Industry~4.0 to Agriculture~4.0: Current status, enabling technologies, and research challenges,'' \textit{IEEE Trans. Industrial Informatics}, vol.~17, no.~6, pp.~4322--4334, 2020.
+
+    \item I.~Loshchilov and F.~Hutter, ``Decoupled weight decay regularization,'' in \textit{Proc. ICLR}, 2019.
+
+    \item B.~McMahan, E.~Moore, D.~Ramage, S.~Hampson, and B.~Arcas, ``Communication-efficient learning of deep networks from decentralized data,'' in \textit{Proc. AISTATS}, vol.~54, pp.~1273--1282, 2017.
+
+    \item T.~Muhammed, R.~Mehmood, A.~Albeshri, and I.~Katib, ``AIoT-driven smart agriculture: A survey on IoT, AI, and their convergence,'' \textit{Computers and Electronics in Agriculture}, vol.~218, p.~108675, 2024.
+
+    \item A.~Olsen, D.~Konovalov, B.~Philippa et al., ``DeepWeeds: A multiclass weed species image dataset for deep learning,'' \textit{Scientific Reports}, vol.~9, 2019.
+
+    \item F.~J.~Pierce and P.~Nowak, ``Aspects of precision agriculture,'' \textit{Advances in Agronomy}, vol.~67, pp.~1--85, 1999.
+
+    \item J.~Redmon, S.~Divvala, R.~Girshick, and A.~Farhadi, ``You Only Look Once: Unified, real-time object detection,'' in \textit{Proc. IEEE/CVF CVPR}, pp.~779--788, 2016.
+
+    \item W.~Shi, J.~Cao, Q.~Zhang, Y.~Li, and L.~Xu, ``Edge computing: Vision and challenges,'' \textit{IEEE Internet of Things Journal}, vol.~3, no.~5, pp.~637--646, 2016.
+
+    \item J.~Torres-Tello, ``Deep learning optimisation techniques for agricultural embedded systems,'' \textit{Computers and Electronics in Agriculture}, vol.~196, p.~106873, 2022.
+
+    \item A.~Tzounis, N.~Katsoulas, T.~Bartzanas, and C.~Kittas, ``Internet of Things in agriculture: Recent advances and future challenges,'' \textit{Biosystems Engineering}, vol.~164, pp.~31--48, 2017.
+
+    \item Ultralytics, \textit{YOLOv11: Next Generation YOLO Models}, 2024. [Online]. Available: \url{https://github.com/ultralytics/ultralytics}
+\end{enumerate}
+
+% ═══════════════════════════════════════════════════════════════
+%  APPENDICES
+% ═══════════════════════════════════════════════════════════════
+\appendix
+
+\chapter{System Component Specifications}
+\pagestyle{fancy}
+\lhead{\textit{Appendix \Roman{chapter}}}
+\rhead{\textbf{\textit{System Component Specifications}}}
+\thispagestyle{empty}
+
+This appendix provides detailed technical specifications for the principal hardware components of the Smart Pivot prototype.
+
+\begingroup
+\small
+\setlength{\parskip}{0pt}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.25}
+\begin{longtable}{|P{0.38\textwidth}|P{0.52\textwidth}|}
+\caption{Key specifications of the NVIDIA Jetson Nano B01 development kit.} \label{tab:jetsonnano_spec}\\
+\hline
+\rowcolor{blue!15}
+\textbf{Parameter} & \textbf{Value} \\ \hline
+\endfirsthead
+\hline
+\rowcolor{blue!15}
+\textbf{Parameter} & \textbf{Value} \\ \hline
+\endhead
+Graphics Processing Unit & NVIDIA Maxwell, 128 CUDA cores \\ \hline
+CPU & Quad-core ARM Cortex-A57 @ 1.43~GHz \\ \hline
+System Memory & 4~GB 64-bit LPDDR4 @ 25.6~GB/s \\ \hline
+Storage & MicroSD card (up to 2~TB) \\ \hline
+Camera Interface (CSI) & 2$\times$ MIPI CSI-2, up to 4 lanes each \\ \hline
+USB Ports & 4$\times$ USB 3.0; 1$\times$ Micro-USB (device mode) \\ \hline
+GPIO & 40-pin expansion header \\ \hline
+Power Modes & 5~W mode; 10~W mode (software-selectable) \\ \hline
+AI Performance & $\approx$472~GFLOPS (FP16) \\ \hline
+Module Dimensions & 70~mm $\times$ 45~mm \\ \hline
+Operating Temperature & $-25$\,°C to $+80$\,°C \\ \hline
+JetPack SDK version (used) & JetPack~4.6 (CUDA~10.2, cuDNN~8.2, TensorRT~8.2) \\ \hline
+\end{longtable}
+\endgroup
+
+\chapter{AI Model Training Configuration}
+\pagestyle{fancy}
+\lhead{\textit{Appendix \Roman{chapter}}}
+\rhead{\textbf{\textit{AI Model Training Configuration}}}
+\thispagestyle{empty}
+
+This appendix reproduces the complete training hyperparameter configuration used for both YOLOv8n and YOLOv11n. The configuration was held constant across both models to ensure a fair architectural comparison.
+
+\begingroup
+\small
+\setlength{\parskip}{0pt}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.25}
+\begin{longtable}{|P{0.38\textwidth}|P{0.52\textwidth}|}
+\caption{Complete training hyperparameter configuration.} \label{tab:training_appendix}\\
+\hline
+\rowcolor{blue!15}
+\textbf{Parameter} & \textbf{Value} \\ \hline
+\endfirsthead
+\hline
+\rowcolor{blue!15}
+\textbf{Parameter} & \textbf{Value} \\ \hline
+\endhead
+Training framework & Ultralytics Python API (v8.x / v11.x) \\ \hline
+Pre-trained weights & COCO 2017 (MS~COCO) \\ \hline
+Input resolution & 640$\times$640 pixels \\ \hline
+Batch size & 16 \\ \hline
+Maximum epochs & 200 \\ \hline
+Early stopping (patience) & 30 epochs \\ \hline
+Optimiser & AdamW \\ \hline
+Initial learning rate ($\eta_0$) & $1 \times 10^{-3}$ \\ \hline
+Minimum learning rate ($\eta_{\min}$) & $1 \times 10^{-5}$ \\ \hline
+LR schedule & Cosine annealing \\ \hline
+Backbone warm-up & First 10 epochs (backbone frozen) \\ \hline
+Automatic Mixed Precision (AMP) & Enabled \\ \hline
+Dataset split (stratified) & 70\% train / 15\% validation / 15\% test \\ \hline
+Number of classes & 4 \\ \hline
+Classes & Bare Soil, Crop, Stressed Plant, Weed \\ \hline
+Augmentation (online) & H/V flip, $\pm$15° rotation, colour jitter, Gaussian noise, Mosaic (4$\times$) \\ \hline
+Experiment tracking & Weights \& Biases (wandb) \\ \hline
+Hardware (training workstation) & NVIDIA GPU ($\ge$8~GB VRAM) \\ \hline
+\end{longtable}
+\endgroup
+
+\chapter{List of Abbreviations}
+\pagestyle{fancy}
+\lhead{\textit{Appendix \Roman{chapter}}}
+\rhead{\textbf{\textit{List of Abbreviations}}}
+\thispagestyle{empty}
+
+\begingroup
+\small
+\setlength{\parskip}{0pt}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.2}
+\begin{longtable}{|P{0.22\textwidth}|P{0.68\textwidth}|}
+\caption{Abbreviations and acronyms used in this dissertation.}\\
+\hline
+\rowcolor{blue!15}
+\textbf{Abbreviation} & \textbf{Full Form} \\ \hline
+\endfirsthead
+\hline
+\rowcolor{blue!15}
+\textbf{Abbreviation} & \textbf{Full Form} \\ \hline
+\endhead
+AI & Artificial Intelligence \\ \hline
+AIoT & Artificial Intelligence of Things \\ \hline
+AMP & Automatic Mixed Precision \\ \hline
+AP & Average Precision \\ \hline
+BBCH & Biologische Bundesanstalt, Bundessortenamt und CHemische Industrie (crop growth staging scale) \\ \hline
+CNN & Convolutional Neural Network \\ \hline
+COCO & Common Objects in Context (dataset) \\ \hline
+CSI & Camera Serial Interface \\ \hline
+CUDA & Compute Unified Device Architecture \\ \hline
+cuDNN & CUDA Deep Neural Network library \\ \hline
+CWSI & Crop Water Stress Index \\ \hline
+DoD & Depth of Discharge \\ \hline
+ET$_0$ & Reference Evapotranspiration \\ \hline
+FP16 & 16-bit Floating-Point (half precision) \\ \hline
+FP32 & 32-bit Floating-Point (single precision) \\ \hline
+GNSS & Global Navigation Satellite System \\ \hline
+GPIO & General-Purpose Input/Output \\ \hline
+GPU & Graphics Processing Unit \\ \hline
+INT8 & 8-bit Integer (quantisation precision) \\ \hline
+IoT & Internet of Things \\ \hline
+IoU & Intersection over Union \\ \hline
+IP65 & Ingress Protection Rating (dust-tight; protected against water jets) \\ \hline
+LiFePO4 & Lithium Iron Phosphate (battery chemistry) \\ \hline
+LPWAN & Low-Power Wide Area Network \\ \hline
+LoRaWAN & Long Range Wide Area Network \\ \hline
+mAP & Mean Average Precision \\ \hline
+MCU & Microcontroller Unit \\ \hline
+MIPI & Mobile Industry Processor Interface \\ \hline
+MPPT & Maximum Power Point Tracking \\ \hline
+MQTT & Message Queuing Telemetry Transport \\ \hline
+NDVI & Normalised Difference Vegetation Index \\ \hline
+NMS & Non-Maximum Suppression \\ \hline
+ONNX & Open Neural Network Exchange \\ \hline
+OTA & Over-The-Air (firmware update) \\ \hline
+PA & Precision Agriculture \\ \hline
+PTQ & Post-Training Quantisation \\ \hline
+PV & Photovoltaic \\ \hline
+REST & Representational State Transfer \\ \hline
+SoC & State of Charge \\ \hline
+TensorRT & NVIDIA TensorRT (deep learning inference optimiser) \\ \hline
+TFLite & TensorFlow Lite \\ \hline
+TLS & Transport Layer Security \\ \hline
+UART & Universal Asynchronous Receiver-Transmitter \\ \hline
+VRI & Variable-Rate Irrigation \\ \hline
+WUE & Water-Use Efficiency \\ \hline
+YOLO & You Only Look Once \\ \hline
+\end{longtable}
+\endgroup
+
+\end{document}

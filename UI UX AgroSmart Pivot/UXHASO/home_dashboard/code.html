@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Precision Field - Control Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-container": "#d02d2d",
+                      "on-background": "#191c1d",
+                      "surface-container-high": "#e7e8e9",
+                      "primary": "#0d631b",
+                      "primary-fixed": "#a3f69c",
+                      "tertiary-fixed": "#ffdad6",
+                      "on-secondary-fixed": "#001c3a",
+                      "surface-container-lowest": "#ffffff",
+                      "on-surface": "#191c1d",
+                      "on-primary-fixed-variant": "#005312",
+                      "surface-variant": "#e1e3e4",
+                      "error-container": "#ffdad6",
+                      "outline-variant": "#bfcaba",
+                      "on-primary-container": "#cbffc2",
+                      "secondary": "#005faf",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-fixed-variant": "#004786",
+                      "on-error-container": "#93000a",
+                      "error": "#ba1a1a",
+                      "background": "#f8f9fa",
+                      "surface-dim": "#d9dadb",
+                      "surface": "#f8f9fa",
+                      "secondary-fixed-dim": "#a5c8ff",
+                      "on-primary-fixed": "#002204",
+                      "secondary-container": "#54a0fe",
+                      "on-tertiary-fixed-variant": "#930010",
+                      "outline": "#707a6c",
+                      "surface-container-highest": "#e1e3e4",
+                      "on-tertiary-fixed": "#410003",
+                      "tertiary": "#ac0c18",
+                      "primary-container": "#2e7d32",
+                      "inverse-surface": "#2e3132",
+                      "on-tertiary": "#ffffff",
+                      "tertiary-fixed-dim": "#ffb3ac",
+                      "on-secondary-container": "#003567",
+                      "on-surface-variant": "#40493d",
+                      "on-tertiary-container": "#ffedeb",
+                      "inverse-primary": "#88d982",
+                      "surface-container-low": "#f3f4f5",
+                      "surface-container": "#edeeef",
+                      "inverse-on-surface": "#f0f1f2",
+                      "on-primary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "surface-bright": "#f8f9fa",
+                      "secondary-fixed": "#d4e3ff",
+                      "surface-tint": "#1b6d24",
+                      "primary-fixed-dim": "#88d982"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {},
+              "fontFamily": {
+                      "headline": [
+                              "Inter"
+                      ],
+                      "body": [
+                              "Inter"
+                      ],
+                      "label": [
+                              "Inter"
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .signature-gradient {
+            background: linear-gradient(135deg, theme('colors.primary'), theme('colors.primary-container'));
+        }
+        .ambient-shadow {
+            box-shadow: 0px 12px 32px 0px rgba(25, 28, 29, 0.06);
+        }
+      </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="bg-[#f8f9fa] dark:bg-[#1a1c1e] docked w-full top-0 z-50 bg-[#f3f4f5] dark:bg-[#2e2f31] flat no-shadows flex justify-between items-center h-[72px] px-6 max-w-full">
+<div class="flex items-center gap-4">
+<button class="text-[#0d631b] dark:text-[#b4f1a6] active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">menu</span>
+</button>
+<h1 class="font-['Inter'] font-bold text-2xl tracking-tight font-black text-[#0d631b] dark:text-[#b4f1a6] tracking-tighter">Precision Field</h1>
+</div>
+<button class="text-[#0d631b] dark:text-[#b4f1a6] active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">sensors</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-8">
+<!-- Status Header (Bento Style Grid Top) -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Primary Status Pulse Card -->
+<div class="md:col-span-2 bg-surface-container-lowest rounded-xl p-6 relative overflow-hidden ambient-shadow border-l-4 border-primary">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="text-on-surface-variant font-bold uppercase tracking-widest text-sm mb-1">Active Sector</p>
+<h2 class="text-4xl font-black text-on-surface tracking-tight">Field A: Optimal</h2>
+</div>
+<div class="bg-primary/10 rounded-full p-3 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">check_circle</span>
+</div>
+</div>
+<div class="flex items-end gap-6 mt-8">
+<div>
+<p class="text-on-surface-variant text-sm font-semibold mb-1">Pivot Progress</p>
+<div class="text-5xl font-black text-primary tracking-tighter">74%</div>
+</div>
+<div class="flex-1 pb-2">
+<div class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[74%] rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Weather/Environment Mini Card -->
+<div class="bg-surface-container-low rounded-xl p-6 flex flex-col justify-between">
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-bold text-sm tracking-widest uppercase">Conditions</span>
+<span class="material-symbols-outlined">partly_cloudy_day</span>
+</div>
+<div class="mt-4">
+<div class="text-4xl font-black text-on-surface mb-2">78°<span class="text-xl text-on-surface-variant">F</span></div>
+<p class="text-on-surface-variant text-sm">Wind: SE 12mph</p>
+<p class="text-on-surface-variant text-sm">Humidity: 45%</p>
+</div>
+</div>
+</section>
+<!-- Command Console (Massive Action Buttons) -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- START IRRIGATION (Secondary/Blue based on prompt, mapped to design system Secondary) -->
+<button class="bg-secondary text-on-secondary rounded-xl p-6 h-32 flex flex-col items-center justify-center gap-3 transition-transform active:scale-95 shadow-md">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">water_drop</span>
+<span class="font-bold text-lg tracking-wider">START IRRIGATION</span>
+</button>
+<!-- SPRAY (Orange/Warning - mapped to a custom high-vis state if needed, using secondary container here for contrast or custom style) -->
+<button class="bg-[#d97706] text-white rounded-xl p-6 h-32 flex flex-col items-center justify-center gap-3 transition-transform active:scale-95 shadow-md">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">pest_control</span>
+<span class="font-bold text-lg tracking-wider">SPRAY</span>
+</button>
+<!-- STOP (Tertiary/Red) -->
+<button class="bg-tertiary text-on-tertiary rounded-xl p-6 h-32 flex flex-col items-center justify-center gap-3 transition-transform active:scale-95 shadow-md">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">stop_circle</span>
+<span class="font-bold text-lg tracking-wider">STOP</span>
+</button>
+</section>
+<!-- Alerts Section -->
+<section class="bg-error-container/20 rounded-xl p-6 border-l-4 border-tertiary ambient-shadow mt-8">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-tertiary">warning</span>
+<h3 class="font-bold text-lg text-tertiary">Recent Alerts</h3>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-lg flex justify-between items-center">
+<div>
+<p class="font-bold text-on-surface">Low pressure in Zone 4</p>
+<p class="text-sm text-on-surface-variant mt-1">Detected 12 mins ago. Check pump valve B.</p>
+</div>
+<button class="text-tertiary font-bold text-sm uppercase tracking-wider px-4 py-2 hover:bg-error-container rounded-lg transition-colors">
+                    Review
+                </button>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="bg-white/80 dark:bg-black/80 backdrop-blur-md fixed bottom-0 w-full z-50 rounded-t-[24px] border-none shadow-[0_-8px_32px_rgba(0,0,0,0.06)] shadow-2xl fixed bottom-0 left-0 w-full flex justify-around items-center h-[96px] pb-4 px-2 md:hidden">
+<a class="flex flex-col items-center justify-center bg-gradient-to-br from-[#0d631b] to-[#2e7d32] text-white rounded-[20px] px-6 py-2 active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-['Inter'] font-bold text-[11px] uppercase tracking-wider text-xs font-bold text-[#0d631b] text-white">Status</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#444746] dark:text-[#c4c7c5] px-6 py-2 hover:text-[#0d631b] dark:hover:text-[#b4f1a6] active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined mb-1">map</span>
+<span class="font-['Inter'] font-bold text-[11px] uppercase tracking-wider">Fields</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#444746] dark:text-[#c4c7c5] px-6 py-2 hover:text-[#0d631b] dark:hover:text-[#b4f1a6] active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined mb-1">settings_remote</span>
+<span class="font-['Inter'] font-bold text-[11px] uppercase tracking-wider">Control</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#444746] dark:text-[#c4c7c5] px-6 py-2 hover:text-[#0d631b] dark:hover:text-[#b4f1a6] active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined mb-1">bar_chart</span>
+<span class="font-['Inter'] font-bold text-[11px] uppercase tracking-wider">Reports</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#444746] dark:text-[#c4c7c5] px-6 py-2 hover:text-[#0d631b] dark:hover:text-[#b4f1a6] active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="font-['Inter'] font-bold text-[11px] uppercase tracking-wider">Profile</span>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Precision Field - Profile &amp; Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#d02d2d",
+                        "on-background": "#191c1d",
+                        "surface-container-high": "#e7e8e9",
+                        "primary": "#0d631b",
+                        "primary-fixed": "#a3f69c",
+                        "tertiary-fixed": "#ffdad6",
+                        "on-secondary-fixed": "#001c3a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#191c1d",
+                        "on-primary-fixed-variant": "#005312",
+                        "surface-variant": "#e1e3e4",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#bfcaba",
+                        "on-primary-container": "#cbffc2",
+                        "secondary": "#005faf",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed-variant": "#004786",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "background": "#f8f9fa",
+                        "surface-dim": "#d9dadb",
+                        "surface": "#f8f9fa",
+                        "secondary-fixed-dim": "#a5c8ff",
+                        "on-primary-fixed": "#002204",
+                        "secondary-container": "#54a0fe",
+                        "on-tertiary-fixed-variant": "#930010",
+                        "outline": "#707a6c",
+                        "surface-container-highest": "#e1e3e4",
+                        "on-tertiary-fixed": "#410003",
+                        "tertiary": "#ac0c18",
+                        "primary-container": "#2e7d32",
+                        "inverse-surface": "#2e3132",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb3ac",
+                        "on-secondary-container": "#003567",
+                        "on-surface-variant": "#40493d",
+                        "on-tertiary-container": "#ffedeb",
+                        "inverse-primary": "#88d982",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-container": "#edeeef",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#f8f9fa",
+                        "secondary-fixed": "#d4e3ff",
+                        "surface-tint": "#1b6d24",
+                        "primary-fixed-dim": "#88d982"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-[120px]">
+<!-- TopAppBar -->
+<header class="bg-[#f8f9fa] dark:bg-[#1a1c1e] text-[#0d631b] dark:text-[#b4f1a6] font-['Inter'] font-bold text-2xl tracking-tight docked w-full top-0 z-50 bg-[#f3f4f5] dark:bg-[#2e2f31] flat no-shadows flex justify-between items-center h-[72px] px-6 max-w-full">
+<button class="hover:bg-[#f3f4f5] dark:hover:bg-[#3f4143] active:scale-95 transition-transform duration-200 p-2 rounded-full text-[#444746] dark:text-[#c4c7c5]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">menu</span>
+</button>
+<span class="font-black text-[#0d631b] dark:text-[#b4f1a6] tracking-tighter">Precision Field</span>
+<button class="hover:bg-[#f3f4f5] dark:hover:bg-[#3f4143] active:scale-95 transition-transform duration-200 p-2 rounded-full text-[#444746] dark:text-[#c4c7c5]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">sensors</span>
+</button>
+</header>
+<main class="px-6 pt-8 max-w-3xl mx-auto space-y-12">
+<!-- Profile Header (Asymmetric Layout) -->
+<section class="flex flex-col md:flex-row items-start md:items-center gap-8">
+<div class="relative">
+<img alt="User Profile" class="w-32 h-32 rounded-full object-cover border-4 border-surface-container-lowest shadow-[0_12px_32px_rgba(25,28,29,0.06)]" data-alt="Close up portrait of a serious middle-aged farmer wearing a cap outdoors, sunlight illuminating his weathered face" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyKD6fvhGMAIHms_7hsFx226-ZzBVcdWcEfiEHfxrn2deG08RGn52ylBDz2KNIqTMM95dBHdqpmCU1imnpYjD1i0ddzkO-IjVEdPaG4hjw-9KXzVZmfkDepr8WitB-g2Y9hqnuJ2uYQkOTMKkQqGi08OAQozIAB_Vp4nD66CF_VTB9_FWXg1kB_BdXX2lQHW253alIJfbszzBT9F8kxfsr7WTSSpPfXqIc9KMtM9fYZIPmCERS_sFkOybZHELTGipxa6PBmTnMh4cA"/>
+<div class="absolute bottom-0 right-0 bg-primary text-on-primary rounded-full p-2 border-2 border-surface shadow-sm">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">edit</span>
+</div>
+</div>
+<div>
+<h1 class="font-bold text-[2rem] leading-tight text-on-background tracking-tight">John Deere</h1>
+<p class="text-on-surface-variant text-lg font-medium mt-1">Farm Manager</p>
+<div class="mt-4 inline-flex items-center gap-2 bg-surface-container-lowest rounded-full px-4 py-2">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<span class="text-sm font-semibold text-on-surface">System Online</span>
+</div>
+</div>
+</section>
+<!-- Settings List (Bento/Card Style) -->
+<section class="space-y-4">
+<!-- Account Settings -->
+<button class="w-full bg-surface-container-lowest p-6 rounded-xl flex items-center justify-between group active:scale-[0.98] transition-transform duration-200 shadow-sm relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-surface-variant group-hover:bg-primary transition-colors"></div>
+<div class="flex items-center gap-6">
+<div class="bg-surface-container-low p-4 rounded-full text-primary group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+</div>
+<div class="text-left">
+<h2 class="text-[1.125rem] font-bold text-on-surface">Account Settings</h2>
+<p class="text-on-surface-variant mt-1 text-sm">Profile details, password, security</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">chevron_right</span>
+</button>
+<!-- System Calibration -->
+<button class="w-full bg-surface-container-lowest p-6 rounded-xl flex items-center justify-between group active:scale-[0.98] transition-transform duration-200 shadow-sm relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-surface-variant group-hover:bg-primary transition-colors"></div>
+<div class="flex items-center gap-6">
+<div class="bg-surface-container-low p-4 rounded-full text-secondary group-hover:bg-secondary/10 transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">tune</span>
+</div>
+<div class="text-left">
+<h2 class="text-[1.125rem] font-bold text-on-surface">System Calibration</h2>
+<p class="text-on-surface-variant mt-1 text-sm">Hardware tuning, sensor offsets</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">chevron_right</span>
+</button>
+<!-- Notification Preferences -->
+<button class="w-full bg-surface-container-lowest p-6 rounded-xl flex items-center justify-between group active:scale-[0.98] transition-transform duration-200 shadow-sm relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-surface-variant group-hover:bg-primary transition-colors"></div>
+<div class="flex items-center gap-6">
+<div class="bg-surface-container-low p-4 rounded-full text-primary group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">notifications</span>
+</div>
+<div class="text-left">
+<h2 class="text-[1.125rem] font-bold text-on-surface">Notification Preferences</h2>
+<p class="text-on-surface-variant mt-1 text-sm">Alerts, SMS, email settings</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">chevron_right</span>
+</button>
+<!-- Help & Support -->
+<button class="w-full bg-surface-container-lowest p-6 rounded-xl flex items-center justify-between group active:scale-[0.98] transition-transform duration-200 shadow-sm relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-surface-variant group-hover:bg-primary transition-colors"></div>
+<div class="flex items-center gap-6">
+<div class="bg-surface-container-low p-4 rounded-full text-primary group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">help</span>
+</div>
+<div class="text-left">
+<h2 class="text-[1.125rem] font-bold text-on-surface">Help &amp; Support</h2>
+<p class="text-on-surface-variant mt-1 text-sm">Manuals, contact support team</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">chevron_right</span>
+</button>
+<!-- Log Out -->
+<button class="w-full mt-8 bg-error-container p-6 rounded-xl flex items-center justify-center gap-4 active:scale-[0.98] transition-transform duration-200">
+<span class="material-symbols-outlined text-on-error-container" style="font-variation-settings: 'FILL' 1;">logout</span>
+<span class="text-[1.125rem] font-bold text-on-error-container">Log Out</span>
+</button>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="bg-white/80 dark:bg-black/80 backdrop-blur-md font-['Inter'] font-bold text-[11px] uppercase tracking-wider fixed bottom-0 w-full z-50 rounded-t-[24px] border-none shadow-[0_-8px_32px_rgba(0,0,0,0.06)] shadow-2xl fixed bottom-0 left-0 w-full flex justify-around items-center h-[96px] pb-4 px-2 md:hidden">
+<button class="flex flex-col items-center justify-center text-[#444746] dark:text-[#c4c7c5] px-6 py-2 hover:text-[#0d631b] dark:hover:text-[#b4f1a6] active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined text-2xl mb-1" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span>Status</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#444746] dark:text-[#c4c7c5] px-6 py-2 hover:text-[#0d631b] dark:hover:text-[#b4f1a6] active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined text-2xl mb-1" style="font-variation-settings: 'FILL' 1;">map</span>
+<span>Fields</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#444746] dark:text-[#c4c7c5] px-6 py-2 hover:text-[#0d631b] dark:hover:text-[#b4f1a6] active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined text-2xl mb-1" style="font-variation-settings: 'FILL' 1;">settings_remote</span>
+<span>Control</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#444746] dark:text-[#c4c7c5] px-6 py-2 hover:text-[#0d631b] dark:hover:text-[#b4f1a6] active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined text-2xl mb-1" style="font-variation-settings: 'FILL' 1;">bar_chart</span>
+<span>Reports</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-gradient-to-br from-[#0d631b] to-[#2e7d32] text-white rounded-[20px] px-6 py-2 active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined text-2xl mb-1" style="font-variation-settings: 'FILL' 1;">person</span>
+<span>Profile</span>
+</button>
+</nav>
+</body></html>

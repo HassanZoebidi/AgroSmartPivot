@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Precision Field - Control Panel</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#d02d2d",
+                    "on-background": "#191c1d",
+                    "surface-container-high": "#e7e8e9",
+                    "primary": "#0d631b",
+                    "primary-fixed": "#a3f69c",
+                    "tertiary-fixed": "#ffdad6",
+                    "on-secondary-fixed": "#001c3a",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface": "#191c1d",
+                    "on-primary-fixed-variant": "#005312",
+                    "surface-variant": "#e1e3e4",
+                    "error-container": "#ffdad6",
+                    "outline-variant": "#bfcaba",
+                    "on-primary-container": "#cbffc2",
+                    "secondary": "#005faf",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed-variant": "#004786",
+                    "on-error-container": "#93000a",
+                    "error": "#ba1a1a",
+                    "background": "#f8f9fa",
+                    "surface-dim": "#d9dadb",
+                    "surface": "#f8f9fa",
+                    "secondary-fixed-dim": "#a5c8ff",
+                    "on-primary-fixed": "#002204",
+                    "secondary-container": "#54a0fe",
+                    "on-tertiary-fixed-variant": "#930010",
+                    "outline": "#707a6c",
+                    "surface-container-highest": "#e1e3e4",
+                    "on-tertiary-fixed": "#410003",
+                    "tertiary": "#ac0c18",
+                    "primary-container": "#2e7d32",
+                    "inverse-surface": "#2e3132",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed-dim": "#ffb3ac",
+                    "on-secondary-container": "#003567",
+                    "on-surface-variant": "#40493d",
+                    "on-tertiary-container": "#ffedeb",
+                    "inverse-primary": "#88d982",
+                    "surface-container-low": "#f3f4f5",
+                    "surface-container": "#edeeef",
+                    "inverse-on-surface": "#f0f1f2",
+                    "on-primary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "surface-bright": "#f8f9fa",
+                    "secondary-fixed": "#d4e3ff",
+                    "surface-tint": "#1b6d24",
+                    "primary-fixed-dim": "#88d982"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter", "sans-serif"],
+                    "body": ["Inter", "sans-serif"],
+                    "label": ["Inter", "sans-serif"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+        
+        /* Material Icon Thick Stroke Helper */
+        .icon-thick {
+            font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 48;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body pt-[72px] pb-[120px] md:pb-12 min-h-screen selection:bg-primary selection:text-on-primary">
+<!-- Shared Component: TopAppBar -->
+<header class="fixed bg-[#f8f9fa] dark:bg-[#1a1c1e] text-[#0d631b] dark:text-[#b4f1a6] font-['Inter'] font-bold text-2xl tracking-tight docked w-full top-0 z-50 bg-[#f3f4f5] dark:bg-[#2e2f31] flat no-shadows flex justify-between items-center h-[72px] px-6 max-w-full">
+<button class="text-[#0d631b] dark:text-[#b4f1a6] hover:bg-[#f3f4f5] dark:hover:bg-[#3f4143] active:scale-95 transition-transform duration-200 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined icon-thick">menu</span>
+</button>
+<span class="font-black text-[#0d631b] dark:text-[#b4f1a6] tracking-tighter">Precision Field</span>
+<button class="text-[#0d631b] dark:text-[#b4f1a6] hover:bg-[#f3f4f5] dark:hover:bg-[#3f4143] active:scale-95 transition-transform duration-200 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined icon-thick">sensors</span>
+</button>
+</header>
+<main class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 flex flex-col gap-12">
+<!-- Header / Context Area -->
+<section class="flex flex-col gap-2">
+<p class="text-on-surface-variant text-sm font-bold tracking-widest uppercase">Center Pivot 04</p>
+<h1 class="font-headline font-black text-5xl md:text-[3.5rem] leading-none tracking-tight text-on-surface">System Command</h1>
+</section>
+<!-- Asymmetrical Main Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+<!-- Left Column: Primary Controls (Glassmorphism / Cockpit feel) -->
+<div class="lg:col-span-7 flex flex-col gap-8 relative z-10">
+<!-- Background decorative element for glass to blur -->
+<div class="absolute -top-10 -left-10 w-64 h-64 bg-primary/10 rounded-full blur-3xl -z-10"></div>
+<div class="absolute bottom-0 right-0 w-80 h-80 bg-secondary/10 rounded-full blur-3xl -z-10"></div>
+<div class="bg-surface-container-lowest/80 backdrop-blur-[20px] rounded-xl p-6 md:p-10 shadow-[0_12px_32px_rgba(25,28,29,0.06)] flex flex-col gap-12 border border-surface-container-high/50">
+<!-- Water Flow Rate Slider -->
+<div class="flex flex-col gap-6">
+<div class="flex justify-between items-end">
+<div class="flex flex-col gap-1">
+<h2 class="text-on-surface font-bold text-xl">Water Flow Rate</h2>
+<p class="text-on-surface-variant text-sm font-medium">Maintains hydration density per sector</p>
+</div>
+<!-- Display-LG scale for the crucial number -->
+<span class="font-headline font-black text-4xl text-secondary">850 <span class="text-lg text-on-surface-variant font-medium">GPM</span></span>
+</div>
+<!-- Custom Large Touch Target Slider -->
+<div class="relative h-16 bg-surface-container-low rounded-full overflow-hidden shadow-inner cursor-pointer group">
+<!-- Active Fill (Secondary color for water) -->
+<div class="absolute top-0 left-0 h-full w-[75%] bg-secondary rounded-full transition-all duration-300"></div>
+<!-- Thumb/Handle -->
+<div class="absolute top-1/2 -translate-y-1/2 left-[75%] -translate-x-1/2 w-12 h-12 bg-surface-container-lowest rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.15)] flex items-center justify-center transition-transform group-hover:scale-110">
+<span class="material-symbols-outlined text-secondary icon-thick text-sm">water_drop</span>
+</div>
+<!-- Scale Markers (Decorative) -->
+<div class="absolute top-0 left-0 w-full h-full flex justify-between px-6 items-center pointer-events-none opacity-40">
+<span class="w-1 h-3 bg-on-secondary rounded-full"></span>
+<span class="w-1 h-3 bg-on-secondary rounded-full"></span>
+<span class="w-1 h-3 bg-on-secondary rounded-full"></span>
+<span class="w-1 h-3 bg-on-surface-variant rounded-full"></span>
+</div>
+</div>
+</div>
+<!-- Spray Intensity Slider -->
+<div class="flex flex-col gap-6">
+<div class="flex justify-between items-end">
+<div class="flex flex-col gap-1">
+<h2 class="text-on-surface font-bold text-xl">Spray Intensity</h2>
+<p class="text-on-surface-variant text-sm font-medium">Controls droplet size and distribution</p>
+</div>
+<span class="font-headline font-black text-4xl text-primary">High</span>
+</div>
+<!-- Custom Large Touch Target Slider -->
+<div class="relative h-16 bg-surface-container-low rounded-full overflow-hidden shadow-inner cursor-pointer group">
+<!-- Active Fill (Primary color) -->
+<div class="absolute top-0 left-0 h-full w-[90%] bg-primary rounded-full transition-all duration-300"></div>
+<!-- Thumb/Handle -->
+<div class="absolute top-1/2 -translate-y-1/2 left-[90%] -translate-x-1/2 w-12 h-12 bg-surface-container-lowest rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.15)] flex items-center justify-center transition-transform group-hover:scale-110">
+<span class="material-symbols-outlined text-primary icon-thick text-sm">shower</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Scheduling (Pulse Card Base Style) -->
+<div class="lg:col-span-5 flex flex-col gap-8 bg-surface-container-low rounded-xl p-6 md:p-8 relative overflow-hidden">
+<!-- Pulse Accent Bar -->
+<div class="absolute top-0 left-0 w-1.5 h-full bg-primary"></div>
+<div class="flex justify-between items-center">
+<h2 class="text-on-surface font-bold text-2xl">Active Schedule</h2>
+<button class="w-12 h-12 rounded-full bg-surface-container-lowest text-primary flex items-center justify-center shadow-[0_4px_12px_rgba(25,28,29,0.06)] hover:bg-surface transition-colors">
+<span class="material-symbols-outlined icon-thick">add</span>
+</button>
+</div>
+<!-- Schedule List (No 1px borders, thick padding) -->
+<div class="flex flex-col gap-4">
+<!-- List Item 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-5 flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined icon-thick">wb_sunny</span>
+</div>
+<div class="flex flex-col">
+<span class="font-bold text-on-surface text-lg">Mon - Fri</span>
+<span class="text-on-surface-variant font-medium text-sm">06:00 - 08:00</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<!-- Filled Chip Style -->
+<span class="bg-primary text-on-primary px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase">Active</span>
+</div>
+</div>
+<!-- List Item 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-5 flex items-center justify-between shadow-sm opacity-60 grayscale-[50%]">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined icon-thick">mode_night</span>
+</div>
+<div class="flex flex-col">
+<span class="font-bold text-on-surface text-lg">Sat - Sun</span>
+<span class="text-on-surface-variant font-medium text-sm">22:00 - 02:00</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">more_vert</span>
+</div>
+</div>
+</div>
+<!-- Primary Action (Signature Gradient) -->
+<button class="mt-4 w-full h-[64px] rounded-xl bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold text-lg flex items-center justify-center shadow-[0_12px_32px_rgba(13,99,27,0.2)] hover:scale-[0.98] transition-transform duration-200">
+<span class="material-symbols-outlined mr-2 icon-thick">save</span>
+                    Save Schedule
+                </button>
+</div>
+</div>
+</main>
+<!-- Shared Component: BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 rounded-t-[24px] border-none bg-white/80 dark:bg-black/80 backdrop-blur-md shadow-[0_-8px_32px_rgba(0,0,0,0.06)] shadow-2xl fixed bottom-0 left-0 w-full flex justify-around items-center h-[96px] pb-4 px-2">
+<!-- Tab 1: Inactive -->
+<button class="flex flex-col items-center justify-center text-[#444746] dark:text-[#c4c7c5] px-6 py-2 hover:text-[#0d631b] dark:hover:text-[#b4f1a6] active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined mb-1">dashboard</span>
+<span class="font-['Inter'] font-bold text-[11px] uppercase tracking-wider">Status</span>
+</button>
+<!-- Tab 2: Inactive -->
+<button class="flex flex-col items-center justify-center text-[#444746] dark:text-[#c4c7c5] px-6 py-2 hover:text-[#0d631b] dark:hover:text-[#b4f1a6] active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined mb-1">map</span>
+<span class="font-['Inter'] font-bold text-[11px] uppercase tracking-wider">Fields</span>
+</button>
+<!-- Tab 3: Active (Control) -->
+<button class="flex flex-col items-center justify-center bg-gradient-to-br from-[#0d631b] to-[#2e7d32] text-white rounded-[20px] px-6 py-2 active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined mb-1 icon-thick">settings_remote</span>
+<span class="font-['Inter'] font-bold text-[11px] uppercase tracking-wider">Control</span>
+</button>
+<!-- Tab 4: Inactive -->
+<button class="flex flex-col items-center justify-center text-[#444746] dark:text-[#c4c7c5] px-6 py-2 hover:text-[#0d631b] dark:hover:text-[#b4f1a6] active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined mb-1">bar_chart</span>
+<span class="font-['Inter'] font-bold text-[11px] uppercase tracking-wider">Reports</span>
+</button>
+<!-- Tab 5: Inactive -->
+<button class="flex flex-col items-center justify-center text-[#444746] dark:text-[#c4c7c5] px-6 py-2 hover:text-[#0d631b] dark:hover:text-[#b4f1a6] active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="font-['Inter'] font-bold text-[11px] uppercase tracking-wider">Profile</span>
+</button>
+</nav>
+</body></html>
